@@ -37,6 +37,14 @@ try:
 except ImportError:
     from player_images import get_player_image_metadata, get_player_image_url, get_player_id
 
+try:
+    from app.model_weights import MODEL_WEIGHTS
+except ImportError:
+    try:
+        from model_weights import MODEL_WEIGHTS
+    except ImportError:
+        MODEL_WEIGHTS = None
+
 # 1. Lazy Model Loading Engine
 _bundle = None
 def get_bundle():
@@ -70,94 +78,106 @@ def safe_int(val, default=0):
     except (ValueError, TypeError):
         return default
 
-# 2. Fast Startup: Load Precomputed Metadata if Available
-if os.path.exists(PRECOMPUTED_PATH):
-    print(f"[FantasyScore AI] Loading precomputed metadata from: {PRECOMPUTED_PATH}")
-    import json
-    with open(PRECOMPUTED_PATH, "r", encoding="utf-8") as f:
-        pre_data = json.load(f)
-    dataset_stats = pre_data["stats"]
-    all_players = pre_data["players"]
-    all_teams = pre_data["teams"]
-    all_opponent_teams = pre_data["opponent_teams"]
-    all_roles = pre_data["roles"]
-    home_away_options = pre_data["home_away_options"]
-    cached_leaderboard = pre_data["leaderboard"]
-    player_profile_map = pre_data["profiles"]
-else:
-    print(f"[FantasyScore AI] Loading historical dataset from: {DATA_PATH}")
-    df = pd.read_csv(DATA_PATH)
-    total_records = len(df)
-    total_players = df["player_name"].nunique()
-    total_matches = df["match_id"].nunique()
-    avg_fantasy_pts = round(float(df["fantasy_points"].mean()), 2)
-    dataset_stats = {
-        "total_records": f"{total_records:,}",
-        "total_players": total_players,
-        "total_matches": total_matches,
-        "avg_fantasy_points": avg_fantasy_pts
-    }
-    all_players = sorted(df["player_name"].dropna().unique().tolist())
-    all_teams = sorted(df["team"].dropna().unique().tolist())
-    all_opponent_teams = sorted(df["opponent_team"].dropna().unique().tolist())
-    all_roles = sorted(df["player_role"].dropna().unique().tolist())
-    home_away_options = sorted(df["home_away"].dropna().unique().tolist())
-
-    bundle = get_bundle()
-    numeric_medians = bundle["numeric_medians"] if bundle else {}
-
-    player_profile_map = {}
-    for name, group in df.groupby("player_name"):
-        latest_row = group.sort_values("match_id", ascending=False).iloc[0]
-        p_team = str(latest_row.get("team", ""))
-        p_role = str(latest_row.get("player_role", ""))
-        img_meta = get_player_image_metadata(name, team=p_team, role=p_role)
-
-        profile = {
-            "player_name": name,
-            "player_id": img_meta["player_id"],
-            "image_url": img_meta["image_url"],
-            "initials": img_meta["initials"],
-            "team": p_team,
-            "opponent_team": str(latest_row.get("opponent_team", "")),
-            "player_role": p_role,
-            "home_away": str(latest_row.get("home_away", "Home")),
-            "batting_runs": round(safe_float(latest_row.get("batting_runs"), numeric_medians.get("batting_runs", 0.0)), 1),
-            "batting_strike_rate": round(safe_float(latest_row.get("batting_strike_rate"), numeric_medians.get("batting_strike_rate", 0.0)), 1),
-            "batting_average": round(safe_float(latest_row.get("batting_average"), numeric_medians.get("batting_average", 0.0)), 1),
-            "boundaries": safe_int(latest_row.get("boundaries"), safe_int(numeric_medians.get("boundaries", 0))),
-            "bowling_wickets": safe_int(latest_row.get("bowling_wickets"), safe_int(numeric_medians.get("bowling_wickets", 0))),
-            "bowling_economy": round(safe_float(latest_row.get("bowling_economy"), numeric_medians.get("bowling_economy", 0.0)), 1),
-            "bowling_average": round(safe_float(latest_row.get("bowling_average"), numeric_medians.get("bowling_average", 0.0)), 1),
-            "overs_bowled": round(safe_float(latest_row.get("overs_bowled"), numeric_medians.get("overs_bowled", 0.0)), 1),
-            "recent_fantasy_points": round(safe_float(latest_row.get("recent_fantasy_points"), numeric_medians.get("recent_fantasy_points", 0.0)), 1),
-            "recent_average_points": round(safe_float(latest_row.get("recent_average_points"), numeric_medians.get("recent_average_points", 0.0)), 1),
-            "player_form": round(safe_float(latest_row.get("player_form"), numeric_medians.get("player_form", 50.0)), 1),
-            "playing_time_percentage": round(safe_float(latest_row.get("playing_time_percentage"), 100.0), 1),
-            "opponent_strength": round(safe_float(latest_row.get("opponent_strength"), numeric_medians.get("opponent_strength", 5.0)), 1)
+# 2. Fast Startup: Load Precomputed Metadata
+try:
+    from app.precomputed_data import PRECOMPUTED_DATA
+    dataset_stats = PRECOMPUTED_DATA["stats"]
+    all_players = PRECOMPUTED_DATA["players"]
+    all_teams = PRECOMPUTED_DATA["teams"]
+    all_opponent_teams = PRECOMPUTED_DATA["opponent_teams"]
+    all_roles = PRECOMPUTED_DATA["roles"]
+    home_away_options = PRECOMPUTED_DATA["home_away_options"]
+    cached_leaderboard = PRECOMPUTED_DATA["leaderboard"]
+    player_profile_map = PRECOMPUTED_DATA["profiles"]
+except Exception:
+    if os.path.exists(PRECOMPUTED_PATH):
+        import json
+        with open(PRECOMPUTED_PATH, "r", encoding="utf-8") as f:
+            pre_data = json.load(f)
+        dataset_stats = pre_data["stats"]
+        all_players = pre_data["players"]
+        all_teams = pre_data["teams"]
+        all_opponent_teams = pre_data["opponent_teams"]
+        all_roles = pre_data["roles"]
+        home_away_options = pre_data["home_away_options"]
+        cached_leaderboard = pre_data["leaderboard"]
+        player_profile_map = pre_data["profiles"]
+    elif os.path.exists(DATA_PATH):
+        df = pd.read_csv(DATA_PATH)
+        total_records = len(df)
+        total_players = df["player_name"].nunique()
+        total_matches = df["match_id"].nunique()
+        avg_fantasy_pts = round(float(df["fantasy_points"].mean()), 2)
+        dataset_stats = {
+            "total_records": f"{total_records:,}",
+            "total_players": total_players,
+            "total_matches": total_matches,
+            "avg_fantasy_points": avg_fantasy_pts
         }
-        player_profile_map[name] = profile
+        all_players = sorted(df["player_name"].dropna().unique().tolist())
+        all_teams = sorted(df["team"].dropna().unique().tolist())
+        all_opponent_teams = sorted(df["opponent_team"].dropna().unique().tolist())
+        all_roles = sorted(df["player_role"].dropna().unique().tolist())
+        home_away_options = sorted(df["home_away"].dropna().unique().tolist())
 
-    leaderboard_records = []
-    for pname, prof in player_profile_map.items():
-        base_pt = prof.get("recent_average_points", 35.0)
-        credits = round(float(np.clip(7.0 + (base_pt - 15.0) * 0.08, 7.5, 10.5)), 1)
-        leaderboard_records.append({
-            "player_name": pname,
-            "player_id": prof["player_id"],
-            "image_url": prof["image_url"],
-            "initials": prof["initials"],
-            "team": prof["team"],
-            "player_role": prof["player_role"],
-            "credits": credits,
-            "predicted_points": round(float(base_pt), 2),
-            "actual_average": round(float(base_pt), 2),
-            "matches": 10
-        })
-    leaderboard_records.sort(key=lambda x: x["predicted_points"], reverse=True)
-    for rank_idx, item in enumerate(leaderboard_records, start=1):
-        item["rank"] = rank_idx
-    cached_leaderboard = leaderboard_records
+        player_profile_map = {}
+        for name, group in df.groupby("player_name"):
+            latest_row = group.sort_values("match_id", ascending=False).iloc[0]
+            p_team = str(latest_row.get("team", ""))
+            p_role = str(latest_row.get("player_role", ""))
+            img_meta = get_player_image_metadata(name, team=p_team, role=p_role)
+
+            profile = {
+                "player_name": name,
+                "player_id": img_meta["player_id"],
+                "image_url": img_meta["image_url"],
+                "initials": img_meta["initials"],
+                "team": p_team,
+                "opponent_team": str(latest_row.get("opponent_team", "")),
+                "player_role": p_role,
+                "home_away": str(latest_row.get("home_away", "Home")),
+                "batting_runs": round(safe_float(latest_row.get("batting_runs"), 0.0), 1),
+                "batting_strike_rate": round(safe_float(latest_row.get("batting_strike_rate"), 0.0), 1),
+                "batting_average": round(safe_float(latest_row.get("batting_average"), 0.0), 1),
+                "boundaries": safe_int(latest_row.get("boundaries"), 0),
+                "bowling_wickets": safe_int(latest_row.get("bowling_wickets"), 0),
+                "bowling_economy": round(safe_float(latest_row.get("bowling_economy"), 0.0), 1),
+                "bowling_average": round(safe_float(latest_row.get("bowling_average"), 0.0), 1),
+                "overs_bowled": round(safe_float(latest_row.get("overs_bowled"), 0.0), 1),
+                "recent_fantasy_points": round(safe_float(latest_row.get("recent_fantasy_points"), 0.0), 1),
+                "recent_average_points": round(safe_float(latest_row.get("recent_average_points"), 0.0), 1),
+                "player_form": round(safe_float(latest_row.get("player_form"), 50.0), 1),
+                "playing_time_percentage": round(safe_float(latest_row.get("playing_time_percentage"), 100.0), 1),
+                "opponent_strength": round(safe_float(latest_row.get("opponent_strength"), 5.0), 1)
+            }
+            player_profile_map[name] = profile
+
+        leaderboard_records = []
+        for pname, prof in player_profile_map.items():
+            base_pt = prof.get("recent_average_points", 35.0)
+            credits = round(float(np.clip(7.0 + (base_pt - 15.0) * 0.08, 7.5, 10.5)), 1)
+            leaderboard_records.append({
+                "player_name": pname,
+                "player_id": prof["player_id"],
+                "image_url": prof["image_url"],
+                "initials": prof["initials"],
+                "team": prof["team"],
+                "player_role": prof["player_role"],
+                "credits": credits,
+                "predicted_points": round(float(base_pt), 2),
+                "actual_average": round(float(base_pt), 2),
+                "matches": 10
+            })
+        leaderboard_records.sort(key=lambda x: x["predicted_points"], reverse=True)
+        for rank_idx, item in enumerate(leaderboard_records, start=1):
+            item["rank"] = rank_idx
+        cached_leaderboard = leaderboard_records
+    else:
+        dataset_stats = {"total_records": "1,000+", "total_players": 163, "total_matches": 100, "avg_fantasy_points": 35.0}
+        all_players, all_teams, all_opponent_teams, all_roles, home_away_options = [], [], [], [], []
+        cached_leaderboard = []
+        player_profile_map = {}
+
 
 # -----------------------------------------------------------------------------
 # 3b. Optimal Fantasy XI Squad Optimizer (MILP / 0-1 Knapsack)
@@ -330,35 +350,63 @@ def make_prediction_from_dict(data_dict):
     import time
     t_start = time.perf_counter()
 
-    bundle = get_bundle()
+    bundle = None
+    try:
+        bundle = get_bundle()
+    except Exception:
+        bundle = None
+
     if bundle is not None:
-        model = bundle.get("model") if bundle.get("model") is not None else FantasyEnsembleRegressor(bundle)
-        features = bundle["features"]
-        numeric_medians = bundle["numeric_medians"]
-        categories = bundle["categories"]
-        categorical_columns = bundle["categorical_columns"]
+        try:
+            model = bundle.get("model") if bundle.get("model") is not None else FantasyEnsembleRegressor(bundle)
+            features = bundle["features"]
+            numeric_medians = bundle["numeric_medians"]
+            categories = bundle["categories"]
+            categorical_columns = bundle["categorical_columns"]
 
-        row_dict = {}
-        for f in features:
-            row_dict[f] = data_dict.get(f, None)
+            row_dict = {}
+            for f in features:
+                row_dict[f] = data_dict.get(f, None)
 
-        x = pd.DataFrame([row_dict])
-        for f in features:
-            if f in numeric_medians:
-                x[f] = pd.to_numeric(x[f], errors="coerce").fillna(numeric_medians[f])
+            x = pd.DataFrame([row_dict])
+            for f in features:
+                if f in numeric_medians:
+                    x[f] = pd.to_numeric(x[f], errors="coerce").fillna(numeric_medians[f])
 
-        for f in categorical_columns:
-            val_series = x[f].fillna("Unknown").astype(str)
-            x[f] = pd.Categorical(val_series, categories=categories[f])
+            for f in categorical_columns:
+                val_series = x[f].fillna("Unknown").astype(str)
+                x[f] = pd.Categorical(val_series, categories=categories[f])
 
-        pred = float(model.predict(x[features])[0])
-        score = round(pred, 2)
-        feature_importances = getattr(model, "feature_importances_", np.zeros(len(features)))
-    else:
-        score = round(safe_float(data_dict.get("recent_average_points", 35.0)), 2)
-        features = ["batting_runs", "recent_fantasy_points", "bowling_wickets", "recent_average_points", "player_form"]
-        numeric_medians = {}
-        feature_importances = [0.3, 0.25, 0.2, 0.15, 0.1]
+            pred = float(model.predict(x[features])[0])
+            score = round(pred, 2)
+            feature_importances = getattr(model, "feature_importances_", np.zeros(len(features)))
+        except Exception:
+            bundle = None
+
+    if bundle is None:
+        if MODEL_WEIGHTS is not None:
+            score = float(MODEL_WEIGHTS["intercept"])
+            features = MODEL_WEIGHTS["features"]
+            numeric_medians = MODEL_WEIGHTS["numeric_medians"]
+            coefs = MODEL_WEIGHTS["coef"]
+
+            for feat, med in numeric_medians.items():
+                val = safe_float(data_dict.get(feat), med)
+                score += coefs.get(feat, 0.0) * val
+
+            for cat_col in MODEL_WEIGHTS.get("categorical_columns", []):
+                val_str = str(data_dict.get(cat_col, "Unknown")).strip()
+                dummy_key = f"{cat_col}_{val_str}"
+                if dummy_key in coefs:
+                    score += coefs[dummy_key]
+
+            score = round(max(5.0, float(score)), 2)
+            feature_importances = [abs(coefs.get(f, 0.1)) for f in features]
+        else:
+            score = round(safe_float(data_dict.get("recent_average_points", 35.0)), 2)
+            features = ["batting_runs", "recent_fantasy_points", "bowling_wickets", "recent_average_points", "player_form"]
+            numeric_medians = {}
+            feature_importances = [0.3, 0.25, 0.2, 0.15, 0.1]
 
     latency_ms = round((time.perf_counter() - t_start) * 1000, 2)
 

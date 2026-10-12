@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/index.py": {
+      "includeFiles": "app/**,templates/**,static/**"
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
