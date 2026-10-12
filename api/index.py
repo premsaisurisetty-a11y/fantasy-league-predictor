@@ -6,6 +6,20 @@ if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
 from app.app import app
+from flask import request, jsonify
+
+@app.route("/ping")
+def ping():
+    return "pong"
+
+@app.route("/debug")
+def debug_route():
+    return jsonify({
+        "path": request.path,
+        "environ_path_info": request.environ.get("PATH_INFO"),
+        "headers": dict(request.headers),
+        "rules": [str(r) for r in app.url_map.iter_rules()]
+    })
 
 class VercelPathFix:
     def __init__(self, wsgi_app):
