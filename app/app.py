@@ -16,6 +16,10 @@ app = Flask(
     static_folder=os.path.join(APP_DIR, "static")
 )
 
+@app.route("/api/health")
+def health():
+    return jsonify({"status": "ok", "python": sys.version})
+
 try:
     from src.ensemble import FantasyEnsembleRegressor
 except ImportError:
