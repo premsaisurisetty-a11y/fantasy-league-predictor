@@ -1,0 +1,12 @@
+__pycache__
+*.pyc
+*.pyo
+.git
+.gitignore
+.vscode
+notebooks
+*.zip
+scratch_*.py
+test_*.py
+fetch_wikipedia_photos.py
+verified_wikipedia_images.json

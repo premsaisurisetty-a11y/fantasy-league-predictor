@@ -1,0 +1,550 @@
+match_id,player_name,team,opponent_team,player_role,fantasy_points,predicted_fantasy_points,absolute_error
+5105,Jacob Bethell,Royal Challengers Bengaluru,Punjab Kings,All-Rounder,67.2,69.54,2.34
+5105,Tim David,Royal Challengers Bengaluru,Punjab Kings,Batsman,42.3,29.0,13.3
+5105,Vivek Kumar,Punjab Kings,Royal Challengers Bengaluru,Wicket-Keeper,4.2,17.25,13.05
+5105,Arshdeep Singh,Punjab Kings,Royal Challengers Bengaluru,Bowler,20.1,38.31,18.21
+5105,Naveen Iyer,Punjab Kings,Royal Challengers Bengaluru,All-Rounder,35.2,39.36,4.16
+5105,Sameer Nair,Punjab Kings,Royal Challengers Bengaluru,Batsman,18.0,22.31,4.31
+5105,Nikhil Gupta,Punjab Kings,Royal Challengers Bengaluru,Batsman,38.5,42.72,4.22
+5105,Josh Hazlewood,Royal Challengers Bengaluru,Punjab Kings,Bowler,18.9,22.82,3.92
+5105,Vivek Das,Punjab Kings,Royal Challengers Bengaluru,Bowler,17.4,32.07,14.67
+5105,Aakash Reddy,Punjab Kings,Royal Challengers Bengaluru,All-Rounder,23.6,29.47,5.87
+5105,Yash Verma,Royal Challengers Bengaluru,Punjab Kings,Batsman,36.6,31.82,4.78
+5105,Tarun Chauhan,Punjab Kings,Royal Challengers Bengaluru,Wicket-Keeper,21.6,26.77,5.17
+5105,Virat Kohli,Royal Challengers Bengaluru,Punjab Kings,Batsman,52.4,49.98,2.42
+5105,Siddharth Sharma,Punjab Kings,Royal Challengers Bengaluru,Bowler,29.1,19.93,9.17
+5105,Rakesh Menon,Royal Challengers Bengaluru,Punjab Kings,Wicket-Keeper,21.7,23.58,1.88
+5105,Xavier Bartlett,Punjab Kings,Royal Challengers Bengaluru,Bowler,35.2,28.06,7.14
+5105,Bhuvneshwar Kumar,Royal Challengers Bengaluru,Punjab Kings,Bowler,36.8,31.06,5.74
+5105,Rohan Kumar,Punjab Kings,Royal Challengers Bengaluru,Wicket-Keeper,12.7,23.73,11.03
+5105,Venkatesh Iyer,Royal Challengers Bengaluru,Punjab Kings,All-Rounder,40.8,52.28,11.48
+5105,Nikhil Chauhan,Royal Challengers Bengaluru,Punjab Kings,All-Rounder,49.7,55.4,5.7
+5105,Shreyas Iyer,Punjab Kings,Royal Challengers Bengaluru,Batsman,40.9,45.42,4.52
+5106,Vikram Singh,Delhi Capitals,Rajasthan Royals,Wicket-Keeper,28.9,27.02,1.88
+5106,Rahul Verma,Rajasthan Royals,Delhi Capitals,Batsman,5.9,13.54,7.64
+5106,Rakesh Singh,Rajasthan Royals,Delhi Capitals,Wicket-Keeper,22.7,21.17,1.53
+5106,Arjun Reddy,Rajasthan Royals,Delhi Capitals,Wicket-Keeper,20.5,10.76,9.74
+5106,Ravi Bishnoi,Rajasthan Royals,Delhi Capitals,Bowler,24.8,36.0,11.2
+5106,Deepak Sharma,Rajasthan Royals,Delhi Capitals,Batsman,36.4,20.98,15.42
+5106,Rohan Das,Delhi Capitals,Rajasthan Royals,Bowler,23.1,21.6,1.5
+5106,Jofra Archer,Rajasthan Royals,Delhi Capitals,BOWLER,62.5,44.44,18.06
+5106,Axar Patel,Delhi Capitals,Rajasthan Royals,All-Rounder,56.1,50.64,5.46
+5106,Aditya Chauhan,Delhi Capitals,Rajasthan Royals,Wicket-Keeper,29.0,15.8,13.2
+5106,Suresh Patel,Delhi Capitals,Rajasthan Royals,All-Rounder,33.2,35.83,2.63
+5106,Vaibhav Sooryavanshi,Rajasthan Royals,Delhi Capitals,Batsman,40.4,41.07,0.67
+5106,KL Rahul,Delhi Capitals,Rajasthan Royals,Wicket-Keeper,50.5,46.01,4.49
+5106,Aakash Singh,Rajasthan Royals,Delhi Capitals,Bowler,27.5,39.82,12.32
+5106,Naveen Rao,Delhi Capitals,Rajasthan Royals,All-Rounder,38.9,37.3,1.6
+5106,Sameer Rizvi,Delhi Capitals,Rajasthan Royals,Batsman,38.7,23.45,15.25
+5106,Aakash Patel,Rajasthan Royals,Delhi Capitals,Batsman,36.2,27.99,8.21
+5106,Sameer Sharma,Delhi Capitals,Rajasthan Royals,Batsman,18.5,29.39,10.89
+5106,Naveen Pillai,Delhi Capitals,Rajasthan Royals,All-Rounder,16.2,18.4,2.2
+5106,Kunal Nair,Delhi Capitals,Rajasthan Royals,Batsman,46.8,31.61,15.19
+5106,Manoj Menon,Rajasthan Royals,Delhi Capitals,Bowler,41.8,46.32,4.52
+5106,Pranav Iyer,Rajasthan Royals,Delhi Capitals,Wicket-Keeper,45.5,38.34,7.16
+5106,Kuldeep Yadav,Delhi Capitals,Rajasthan Royals,Bowler,50.9,48.9,2.0
+5107,Venkatesh Iyer,Royal Challengers Bengaluru,Sunrisers Hyderabad,All-Rounder,53.4,44.08,9.32
+5107,Aniket Verma,Sunrisers Hyderabad,Royal Challengers Bengaluru,Batsman,9.9,13.56,3.66
+5107,Virat Kohli,Royal Challengers Bengaluru,Sunrisers Hyderabad,Batsman,76.5,59.2,17.3
+5107,Yash Verma,Royal Challengers Bengaluru,Sunrisers Hyderabad,Batsman,50.5,34.03,16.47
+5107,Eshan Malinga,Sunrisers Hyderabad,Royal Challengers Bengaluru,Bowler,37.5,35.94,1.56
+5107,Devdutt Padikkal,Royal Challengers Bengaluru,Sunrisers Hyderabad,Batsman,45.2,28.67,16.53
+5107,Brydon Carse,Sunrisers Hyderabad,Royal Challengers Bengaluru,Bowler,15.2,30.76,15.56
+5107,Phil Salt,Royal Challengers Bengaluru,Sunrisers Hyderabad,Wicket-Keeper,33.8,44.0,10.2
+5107,Kunal Chauhan,Royal Challengers Bengaluru,Sunrisers Hyderabad,Bowler,36.5,38.65,2.15
+5107,Nikhil Chauhan,Royal Challengers Bengaluru,Sunrisers Hyderabad,All-Rounder,6.6,25.36,18.76
+5107,Kamindu Mendis,Sunrisers Hyderabad,Royal Challengers Bengaluru,All-Rounder,12.8,16.01,3.21
+5107,Yash Das,Royal Challengers Bengaluru,Sunrisers Hyderabad,Wicket-Keeper,24.0,15.62,8.38
+5107,Zeeshan Ansari,Sunrisers Hyderabad,Royal Challengers Bengaluru,Bowler,4.5,19.74,15.24
+5107,Jacob Bethell,Royal Challengers Bengaluru,Sunrisers Hyderabad,All-Rounder,50.3,44.62,5.68
+5107,Josh Hazlewood,Royal Challengers Bengaluru,Sunrisers Hyderabad,Bowler,11.7,23.61,11.91
+5107,Bhuvneshwar Kumar,Royal Challengers Bengaluru,Sunrisers Hyderabad,Bowler,74.2,70.09,4.11
+5107,Nitish Kumar Reddy,Sunrisers Hyderabad,Royal Challengers Bengaluru,All-Rounder,31.8,34.73,2.93
+5107,Pat Cummins,Sunrisers Hyderabad,Royal Challengers Bengaluru,Bowler,30.0,28.52,1.48
+5107,Rakesh Menon,Royal Challengers Bengaluru,Sunrisers Hyderabad,Wicket-Keeper,32.3,27.64,4.66
+5107,Smaran Ravichandran,Sunrisers Hyderabad,Royal Challengers Bengaluru,Batsman,11.9,6.13,5.77
+5107,Jaydev Unadkat,Sunrisers Hyderabad,Royal Challengers Bengaluru,Bowler,20.5,31.05,10.55
+5107,Vivek Bhat,Sunrisers Hyderabad,Royal Challengers Bengaluru,Bowler,31.0,32.74,1.74
+5108,Jacob Bethell,Royal Challengers Bengaluru,Lucknow Super Giants,All-Rounder,21.9,34.9,13.0
+5108,Devdutt Padikkal,Royal Challengers Bengaluru,Lucknow Super Giants,Batsman,31.8,31.76,0.04
+5108,Rakesh Menon,Royal Challengers Bengaluru,Lucknow Super Giants,Wicket-Keeper,13.5,28.8,15.3
+5108,Rajat Patidar,Royal Challengers Bengaluru,Lucknow Super Giants,Batsman,26.2,27.48,1.28
+5108,Yash Verma,Royal Challengers Bengaluru,Lucknow Super Giants,Batsman,51.5,37.63,13.87
+5108,Varun Patel,Lucknow Super Giants,Royal Challengers Bengaluru,All-Rounder,17.6,23.32,5.72
+5108,Arjun Rao,Lucknow Super Giants,Royal Challengers Bengaluru,Bowler,1.0,9.14,8.14
+5108,Venkatesh Iyer,Royal Challengers Bengaluru,Lucknow Super Giants,All-Rounder,42.1,50.36,8.26
+5108,Manoj Sharma,Lucknow Super Giants,Royal Challengers Bengaluru,Batsman,0.0,12.84,12.84
+5108,Naveen Patel,Lucknow Super Giants,Royal Challengers Bengaluru,Bowler,70.1,62.34,7.76
+5108,Yash Chauhan,Lucknow Super Giants,Royal Challengers Bengaluru,Batsman,16.2,11.49,4.71
+5108,Prince Yadav,Lucknow Super Giants,Royal Challengers Bengaluru,Bowler,32.4,51.53,19.13
+5108,Vikram Verma,Lucknow Super Giants,Royal Challengers Bengaluru,All-Rounder,7.5,8.4,0.9
+5108,Manoj Reddy,Lucknow Super Giants,Royal Challengers Bengaluru,Bowler,24.5,48.11,23.61
+5108,Varun Rao,Lucknow Super Giants,Royal Challengers Bengaluru,Batsman,17.2,7.22,9.98
+5108,Kunal Chauhan,Royal Challengers Bengaluru,Lucknow Super Giants,Bowler,26.8,27.08,0.28
+5108,Josh Hazlewood,Royal Challengers Bengaluru,Lucknow Super Giants,Bowler,17.0,20.37,3.37
+5108,Naveen Menon,Lucknow Super Giants,Royal Challengers Bengaluru,Wicket-Keeper,41.9,30.62,11.28
+5108,Virat Kohli,Royal Challengers Bengaluru,Lucknow Super Giants,Batsman,42.8,43.21,0.41
+5108,Yash Dayal,Royal Challengers Bengaluru,Lucknow Super Giants,Bowler,50.7,62.64,11.94
+5108,Suresh Menon,Lucknow Super Giants,Royal Challengers Bengaluru,All-Rounder,29.9,35.82,5.92
+5108,Rakesh Sharma,Lucknow Super Giants,Royal Challengers Bengaluru,Batsman,22.0,14.87,7.13
+5108,Phil Salt,Royal Challengers Bengaluru,Lucknow Super Giants,Wicket-Keeper,62.4,56.85,5.55
+5108,Bhuvneshwar Kumar,Royal Challengers Bengaluru,Lucknow Super Giants,Bowler,46.5,45.11,1.39
+5109,Kuldeep Yadav,Delhi Capitals,Mumbai Indians,Bowler,53.3,59.04,5.74
+5109,Danish Malewar,Mumbai Indians,Delhi Capitals,All-Rounder,63.0,51.46,11.54
+5109,Suryakumar Yadav,Mumbai Indians,Delhi Capitals,Batsman,49.1,49.21,0.11
+5109,Axar Patel,Delhi Capitals,Mumbai Indians,All-Rounder,77.5,93.53,16.03
+5109,KL Rahul,Delhi Capitals,Mumbai Indians,Wicket-Keeper,65.8,53.24,12.56
+5109,Robin Minz,Mumbai Indians,Delhi Capitals,Wicket-Keeper,31.6,22.58,9.02
+5109,Sherfane Rutherford,Mumbai Indians,Delhi Capitals,All-Rounder,109.3,100.66,8.64
+5109,Rohan Das,Delhi Capitals,Mumbai Indians,Bowler,48.2,31.72,16.48
+5109,Allah Ghazanfar,Mumbai Indians,Delhi Capitals,Bowler,42.0,54.35,12.35
+5109,Naveen Pillai,Delhi Capitals,Mumbai Indians,All-Rounder,31.1,35.48,4.38
+5109,Naveen Rao,Delhi Capitals,Mumbai Indians,All-Rounder,34.2,57.14,22.94
+5109,Yash Menon,Delhi Capitals,Mumbai Indians,Bowler,47.6,34.52,13.08
+5109,Mohammed Izhar,Mumbai Indians,Delhi Capitals,Bowler,36.4,34.97,1.43
+5109,Trent Boult,Mumbai Indians,Delhi Capitals,Bowler,48.0,35.81,12.19
+5109,Mayank Markande,Mumbai Indians,Delhi Capitals,Bowler,31.3,42.24,10.94
+5109,Mayank Rawat,Mumbai Indians,Delhi Capitals,All-Rounder,9.4,23.48,14.08
+5109,Kunal Nair,Delhi Capitals,Mumbai Indians,Batsman,36.2,30.2,6.0
+5109,Raj Angad Bawa,Mumbai Indians,Delhi Capitals,All-Rounder,58.1,58.6,0.5
+5109,Raghu Sharma,Mumbai Indians,Delhi Capitals,Bowler,29.6,13.53,16.07
+5109,Suresh Patel,Delhi Capitals,Mumbai Indians,All-Rounder,37.6,29.43,8.17
+5109,Sameer Rizvi,Delhi Capitals,Mumbai Indians,Batsman,37.8,35.78,2.02
+5109,Aditya Chauhan,Delhi Capitals,Mumbai Indians,Wicket-Keeper,29.7,26.9,2.8
+5109,Vikram Singh,Delhi Capitals,Mumbai Indians,Wicket-Keeper,54.4,46.66,7.74
+5110,KL Rahul,Delhi Capitals,Rajasthan Royals,Wicket-Keeper,47.7,39.99,7.71
+5110,Rohan Singh,Rajasthan Royals,Delhi Capitals,All-Rounder,49.4,56.99,7.59
+5110,Rohan Das,Delhi Capitals,Rajasthan Royals,Bowler,30.2,29.34,0.86
+5110,Yash Singh,Rajasthan Royals,Delhi Capitals,All-Rounder,40.1,38.26,1.84
+5110,David Miller,Delhi Capitals,Rajasthan Royals,Batsman,24.5,28.65,4.15
+5110,Yash Menon,Delhi Capitals,Rajasthan Royals,Bowler,19.8,23.58,3.78
+5110,Kunal Nair,Delhi Capitals,Rajasthan Royals,Batsman,8.5,23.56,15.06
+5110,Naveen Rao,Delhi Capitals,Rajasthan Royals,All-Rounder,30.2,48.25,18.05
+5110,Naveen Pillai,Delhi Capitals,Rajasthan Royals,All-Rounder,22.0,29.17,7.17
+5110,Sameer Rizvi,Delhi Capitals,Rajasthan Royals,Batsman,25.1,30.12,5.02
+5110,Vikram Singh,Delhi Capitals,Rajasthan Royals,Wicket-Keeper,29.5,41.19,11.69
+5110,Harsha Kumar,Rajasthan Royals,Delhi Capitals,All-Rounder,53.0,33.01,19.99
+5110,Manoj Menon,Rajasthan Royals,Delhi Capitals,Bowler,33.7,25.83,7.87
+5110,Deepak Sharma,Rajasthan Royals,Delhi Capitals,Batsman,17.9,22.63,4.73
+5110,Rakesh Bhat,Delhi Capitals,Rajasthan Royals,Bowler,18.5,31.18,12.68
+5110,Jofra Archer,Rajasthan Royals,Delhi Capitals,Bowler,33.1,47.22,14.12
+5110,Aakash Singh,Rajasthan Royals,Delhi Capitals,Bowler,18.1,20.83,2.73
+5110,Axar Patel,Delhi Capitals,Rajasthan Royals,All-Rounder,55.6,75.09,19.49
+5110,Kuldeep Yadav,Delhi Capitals,Rajasthan Royals,Bowler,59.0,58.13,0.87
+5110,Vaibhav Sooryavanshi,Rajasthan Royals,Delhi Capitals,Batsman,51.4,56.2,4.8
+5110,Ravi Bishnoi,Rajasthan Royals,Delhi Capitals,Bowler,54.3,52.74,1.56
+5111,Tarun Iyer,Lucknow Super Giants,Chennai Super Kings,Wicket-Keeper,61.2,39.96,21.24
+5111,Prashant Veer,Chennai Super Kings,Lucknow Super Giants,All-Rounder,55.8,51.9,3.9
+5111,Manoj Reddy,Lucknow Super Giants,Chennai Super Kings,Bowler,42.7,31.92,10.78
+5111,Naveen Patel,Lucknow Super Giants,Chennai Super Kings,Bowler,38.0,34.76,3.24
+5111,Kartik Sharma,Chennai Super Kings,Lucknow Super Giants,Batsman,25.2,24.9,0.3
+5111,Suresh Menon,Lucknow Super Giants,Chennai Super Kings,All-Rounder,41.6,34.0,7.6
+5111,Manoj Sharma,Lucknow Super Giants,Chennai Super Kings,Batsman,17.2,18.85,1.65
+5111,Varun Patel,Lucknow Super Giants,Chennai Super Kings,All-Rounder,2.6,24.98,22.38
+5111,Matthew Short,Chennai Super Kings,Lucknow Super Giants,Batsman,22.9,26.46,3.56
+5111,Varun Bhat,Lucknow Super Giants,Chennai Super Kings,Wicket-Keeper,43.4,47.48,4.08
+5111,Rohan Gupta,Chennai Super Kings,Lucknow Super Giants,Wicket-Keeper,56.0,39.63,16.37
+5111,MS Dhoni,Chennai Super Kings,Lucknow Super Giants,Wicket-Keeper,40.0,37.1,2.9
+5111,Naveen Bhat,Chennai Super Kings,Lucknow Super Giants,Batsman,10.7,23.74,13.04
+5111,Anshul Kamboj,Chennai Super Kings,Lucknow Super Giants,Bowler,11.7,32.94,21.24
+5111,Prince Yadav,Lucknow Super Giants,Chennai Super Kings,Bowler,24.9,25.06,0.16
+5111,Karan Verma,Chennai Super Kings,Lucknow Super Giants,Bowler,38.1,58.32,20.22
+5111,Yash Chauhan,Lucknow Super Giants,Chennai Super Kings,Batsman,33.6,29.45,4.15
+5111,Noor Ahmad,Chennai Super Kings,Lucknow Super Giants,Bowler,26.3,33.47,7.17
+5112,Hardik Pandya,Mumbai Indians,Sunrisers Hyderabad,All-Rounder,39.5,45.83,6.33
+5112,Brydon Carse,Sunrisers Hyderabad,Mumbai Indians,Bowler,62.7,69.84,7.14
+5112,Yash Nair,,Mumbai Indians,Batsman,29.5,25.52,3.98
+5112,Aniket Verma,Sunrisers Hyderabad,Mumbai Indians,Batsman,24.3,34.39,10.09
+5112,Eshan Malinga,Sunrisers Hyderabad,Mumbai Indians,Bowler,64.7,85.04,20.34
+5112,Raghu Sharma,Mumbai Indians,Sunrisers Hyderabad,Bowler,53.1,39.81,13.29
+5112,Keshav Maharaj,Mumbai Indians,Sunrisers Hyderabad,Bowler,41.9,36.27,5.63
+5112,Ashwani Kumar,Mumbai Indians,Sunrisers Hyderabad,Bowler,28.6,18.71,9.89
+5112,Trent Boult,Mumbai Indians,Sunrisers Hyderabad,Bowler,65.9,49.62,16.28
+5112,Danish Malewar,Mumbai Indians,Sunrisers Hyderabad,All-Rounder,67.7,52.05,15.65
+5112,Smaran Ravichandran,Sunrisers Hyderabad,Mumbai Indians,Batsman,33.1,32.1,1.0
+5112,Raj Angad Bawa,Mumbai Indians,Sunrisers Hyderabad,All-Rounder,37.9,27.37,10.53
+5112,Karan Pillai,Sunrisers Hyderabad,Mumbai Indians,All-Rounder,27.9,40.34,12.44
+5112,Mohammed Izhar,Mumbai Indians,Sunrisers Hyderabad,Bowler,34.8,47.97,13.17
+5112,Zeeshan Ansari,Sunrisers Hyderabad,Mumbai Indians,Bowler,19.9,29.6,9.7
+5112,Vivek Bhat,Sunrisers Hyderabad,Mumbai Indians,Bowler,32.2,31.7,0.5
+5112,Jaydev Unadkat,Sunrisers Hyderabad,Mumbai Indians,Bowler,21.3,47.83,26.53
+5112,Mayank Rawat,Mumbai Indians,Sunrisers Hyderabad,All-Rounder,67.1,51.28,15.82
+5112,Tilak Varma,Mumbai Indians,Sunrisers Hyderabad,All-Rounder,72.7,83.39,10.69
+5112,Ishan Kishan,Sunrisers Hyderabad,Mumbai Indians,Wicket-Keeper,52.5,58.27,5.77
+5112,Will Jacks,Mumbai Indians,Sunrisers Hyderabad,Batsman,46.0,40.43,5.57
+5112,Nitish Kumar Reddy,Sunrisers Hyderabad,Mumbai Indians,All-Rounder,50.0,51.92,1.92
+5113,Trent Boult,Mumbai Indians,Lucknow Super Giants,Bowler,40.3,38.31,1.99
+5113,Ruchit Ahir,Mumbai Indians,Lucknow Super Giants,Batsman,21.0,33.28,12.28
+5113,Danish Malewar,Mumbai Indians,Lucknow Super Giants,All-Rounder,34.1,33.15,0.95
+5113,Yash Chauhan,Lucknow Super Giants,Mumbai Indians,Batsman,22.4,16.84,5.56
+5113,Mitchell Santner,Mumbai Indians,Lucknow Super Giants,All-Rounder,77.2,78.38,1.18
+5113,Varun Bhat,Lucknow Super Giants,Mumbai Indians,Wicket-Keeper,37.9,24.94,12.96
+5113,Rakesh Sharma,Lucknow Super Giants,Mumbai Indians,Batsman,17.3,16.12,1.18
+5113,Mahipal Lomror,Mumbai Indians,Lucknow Super Giants,All-Rounder,34.7,36.28,1.58
+5113,Varun Patel,Lucknow Super Giants,Mumbai Indians,All-Rounder,0.0,19.66,19.66
+5113,Arjun Rao,Lucknow Super Giants,Mumbai Indians,Bowler,18.8,13.22,5.58
+5113,Naveen Patel,Lucknow Super Giants,Mumbai Indians,Bowler,36.6,53.36,16.76
+5113,Tilak Varma,Mumbai Indians,Lucknow Super Giants,All-Rounder,66.2,58.9,7.3
+5113,Krish Bhagat,Mumbai Indians,Lucknow Super Giants,All-Rounder,32.5,45.57,13.07
+5113,Vikram Verma,Lucknow Super Giants,Mumbai Indians,All-Rounder,4.3,13.59,9.29
+5113,Manoj Reddy,Lucknow Super Giants,Mumbai Indians,Bowler,19.3,23.91,4.61
+5113,Varun Rao,Lucknow Super Giants,Mumbai Indians,Batsman,0.0,4.9,4.9
+5113,Naveen Menon,Lucknow Super Giants,Mumbai Indians,Wicket-Keeper,9.7,19.8,10.1
+5113,Allah Ghazanfar,Mumbai Indians,Lucknow Super Giants,Bowler,49.3,51.03,1.73
+5113,Mayank Rawat,Mumbai Indians,Lucknow Super Giants,All-Rounder,41.2,33.18,8.02
+5113,Hardik Pandya,Mumbai Indians,Lucknow Super Giants,All-Rounder,57.2,50.37,6.83
+5113,Will Jacks,Mumbai Indians,Lucknow Super Giants,Batsman,43.5,46.68,3.18
+5113,Manoj Sharma,Lucknow Super Giants,Mumbai Indians,Batsman,34.5,31.81,2.69
+5114,Vikram Verma,Lucknow Super Giants,Mumbai Indians,All-Rounder,41.8,41.57,0.23
+5114,Varun Patel,Lucknow Super Giants,Mumbai Indians,All-Rounder,18.7,17.67,1.03
+5114,Naman Dhir,Mumbai Indians,Lucknow Super Giants,All-Rounder,45.4,32.89,12.51
+5114,Rakesh Iyer,Lucknow Super Giants,Mumbai Indians,All-Rounder,25.0,35.59,10.59
+5114,Quinton de Kock,Mumbai Indians,Lucknow Super Giants,Wicket-Keeper,29.1,39.85,10.75
+5114,Will Jacks,Mumbai Indians,Lucknow Super Giants,Batsman,40.2,25.0,15.2
+5114,Suresh Menon,Lucknow Super Giants,Mumbai Indians,All-Rounder,31.3,19.22,12.08
+5114,Varun Rao,Lucknow Super Giants,Mumbai Indians,Batsman,3.7,9.45,5.75
+5114,Arjun Rao,Lucknow Super Giants,Mumbai Indians,Bowler,33.2,28.13,5.07
+5114,Raj Angad Bawa,Mumbai Indians,Lucknow Super Giants,All-Rounder,31.7,30.7,1.0
+5114,Robin Minz,Mumbai Indians,Lucknow Super Giants,Wicket-Keeper,37.2,18.76,18.44
+5114,Mahipal Lomror,Mumbai Indians,Lucknow Super Giants,All-Rounder,52.8,51.71,1.09
+5114,Naveen Patel,Lucknow Super Giants,Mumbai Indians,Bowler,42.0,34.58,7.42
+5114,Suryakumar Yadav,Mumbai Indians,Lucknow Super Giants,Batsman,34.4,53.85,19.45
+5114,Corbin Bosch,Mumbai Indians,Lucknow Super Giants,All-Rounder,45.9,41.37,4.53
+5114,Sherfane Rutherford,Mumbai Indians,Lucknow Super Giants,All-Rounder,72.5,60.55,11.95
+5114,Yash Chauhan,Lucknow Super Giants,Mumbai Indians,Batsman,17.4,23.94,6.54
+5114,Ashwani Kumar,Mumbai Indians,Lucknow Super Giants,Bowler,16.8,11.94,4.86
+5114,Naveen Menon,Lucknow Super Giants,Mumbai Indians,Wicket-Keeper,19.2,28.37,9.17
+5114,Tilak Varma,Mumbai Indians,Lucknow Super Giants,All-Rounder,75.5,64.37,11.13
+5115,Rohit Sharma,Mumbai Indians,Gujarat Titans,Batsman,44.1,36.78,7.32
+5115,Suryakumar Yadav,Mumbai Indians,Gujarat Titans,Batsman,40.2,34.53,5.67
+5115,Harsha Reddy,Gujarat Titans,Mumbai Indians,Wicket-Keeper,41.4,30.41,10.99
+5115,Suresh Chauhan,Gujarat Titans,Mumbai Indians,Bowler,54.8,52.22,2.58
+5115,Jos Buttler,Gujarat Titans,Mumbai Indians,Wicket-Keeper,39.7,44.24,4.54
+5115,Deepak Chahar,Mumbai Indians,Gujarat Titans,Bowler,39.2,36.54,2.66
+5115,Pranav Chauhan,Gujarat Titans,Mumbai Indians,Batsman,17.5,28.13,10.63
+5115,Trent Boult,Mumbai Indians,Gujarat Titans,Bowler,24.0,22.44,1.56
+5115,Shardul Thakur,Mumbai Indians,Gujarat Titans,Bowler,32.0,31.56,0.44
+5115,Kagiso Rabada,Gujarat Titans,Mumbai Indians,Bowler,42.8,50.14,7.34
+5115,Aakash Menon,Gujarat Titans,Mumbai Indians,All-Rounder,40.2,41.1,0.9
+5115,Raghu Sharma,Mumbai Indians,Gujarat Titans,Bowler,22.2,21.89,0.31
+5115,Rakesh Reddy,Gujarat Titans,Mumbai Indians,Bowler,16.0,22.54,6.54
+5115,Mohammed Siraj,Gujarat Titans,Mumbai Indians,Bowler,53.5,53.36,0.14
+5115,Pranav Sharma,Gujarat Titans,Mumbai Indians,All-Rounder,42.5,42.36,0.14
+5115,Siddharth Gupta,Gujarat Titans,Mumbai Indians,Wicket-Keeper,4.5,36.39,31.89
+5115,Ryan Rickelton,Mumbai Indians,Gujarat Titans,Wicket-Keeper,56.5,41.31,15.19
+5115,Sameer Iyer,Gujarat Titans,Mumbai Indians,All-Rounder,29.2,38.96,9.76
+5115,Mitchell Santner,Mumbai Indians,Gujarat Titans,All-Rounder,50.2,53.0,2.8
+5115,Rashid Khan,Gujarat Titans,Mumbai Indians,Bowler,49.1,48.09,1.01
+5115,Quinton de Kock,Mumbai Indians,Gujarat Titans,Wicket-Keeper,47.0,37.55,9.45
+5115,Danish Malewar,Mumbai Indians,Gujarat Titans,All-Rounder,46.9,58.92,12.02
+5115,Allah Ghazanfar,Mumbai Indians,Gujarat Titans,Bowler,53.6,55.54,1.94
+5116,Rahul Gupta,Gujarat Titans,Mumbai Indians,Batsman,9.8,23.51,13.71
+5116,Suresh Chauhan,Gujarat Titans,Mumbai Indians,Bowler,25.3,41.87,16.57
+5116,Rashid Khan,Gujarat Titans,Mumbai Indians,Bowler,36.5,39.25,2.75
+5116,Mohammed Siraj,Gujarat Titans,Mumbai Indians,Bowler,29.8,53.51,23.71
+5116,Tilak Varma,Mumbai Indians,Gujarat Titans,All-Rounder,68.0,71.28,3.28
+5116,Ruchit Ahir,Mumbai Indians,Gujarat Titans,Batsman,32.7,30.69,2.01
+5116,Sameer Iyer,Gujarat Titans,Mumbai Indians,All-Rounder,37.5,31.24,6.26
+5116,Hardik Pandya,Mumbai Indians,Gujarat Titans,All-Rounder,68.6,67.03,1.57
+5116,Mayank Rawat,Mumbai Indians,Gujarat Titans,All-Rounder,43.9,27.6,16.3
+5116,Krish Bhagat,Mumbai Indians,Gujarat Titans,All-Rounder,25.1,37.84,12.74
+5116,Shubman Gill,Gujarat Titans,Mumbai Indians,Batsman,32.2,47.28,15.08
+5116,Pranav Sharma,Gujarat Titans,Mumbai Indians,All-Rounder,49.3,47.37,1.93
+5116,Rakesh Reddy,Gujarat Titans,Mumbai Indians,Bowler,34.6,35.46,0.86
+5116,Shardul Thakur,Mumbai Indians,Gujarat Titans,Bowler,28.7,30.85,2.15
+5116,Kagiso Rabada,Gujarat Titans,Mumbai Indians,Bowler,53.4,44.98,8.42
+5116,Robin Minz,Mumbai Indians,Gujarat Titans,Wicket-Keeper,10.8,14.64,3.84
+5116,Trent Boult,Mumbai Indians,Gujarat Titans,Bowler,47.1,31.49,15.61
+5116,Ashwani Kumar,Mumbai Indians,Gujarat Titans,Bowler,15.6,22.74,7.14
+5117,Phil Salt,Royal Challengers Bengaluru,Delhi Capitals,Wicket-Keeper,55.2,45.39,9.81
+5117,Sameer Rizvi,Delhi Capitals,Royal Challengers Bengaluru,Batsman,30.1,29.66,0.44
+5117,Sameer Sharma,Delhi Capitals,Royal Challengers Bengaluru,Batsman,7.8,33.44,25.64
+5117,Aditya Chauhan,Delhi Capitals,Royal Challengers Bengaluru,Wicket-Keeper,21.7,18.49,3.21
+5117,Jacob Bethell,Royal Challengers Bengaluru,Delhi Capitals,ALL-ROUNDER,42.1,39.66,2.44
+5117,Josh Hazlewood,Royal Challengers Bengaluru,Delhi Capitals,Bowler,42.7,47.23,4.53
+5117,Kunal Chauhan,Royal Challengers Bengaluru,Delhi Capitals,Bowler,21.8,21.37,0.43
+5117,Rajat Patidar,Royal Challengers Bengaluru,Delhi Capitals,Batsman,29.8,29.94,0.14
+5117,Yash Verma,Royal Challengers Bengaluru,Delhi Capitals,Batsman,18.3,21.24,2.94
+5117,Yash Das,Royal Challengers Bengaluru,Delhi Capitals,Wicket-Keeper,0.0,6.69,6.69
+5117,Yash Menon,Delhi Capitals,Royal Challengers Bengaluru,Bowler,70.3,57.87,12.43
+5117,Nikhil Chauhan,Royal Challengers Bengaluru,Delhi Capitals,All-Rounder,23.4,24.36,0.96
+5117,Rakesh Bhat,Delhi Capitals,Royal Challengers Bengaluru,Bowler,34.0,34.79,0.79
+5117,Bhuvneshwar Kumar,Royal Challengers Bengaluru,Delhi Capitals,Bowler,50.3,52.04,1.74
+5117,Suresh Patel,Delhi Capitals,Royal Challengers Bengaluru,All-Rounder,41.9,43.32,1.42
+5117,Devdutt Padikkal,Royal Challengers Bengaluru,Delhi Capitals,Batsman,22.8,39.45,16.65
+5117,Vikram Singh,Delhi Capitals,Royal Challengers Bengaluru,Wicket-Keeper,22.1,32.12,10.02
+5117,Venkatesh Iyer,Royal Challengers Bengaluru,Delhi Capitals,All-Rounder,61.3,46.76,14.54
+5117,Virat Kohli,Royal Challengers Bengaluru,Delhi Capitals,Batsman,52.8,52.76,0.04
+5117,Axar Patel,Delhi Capitals,Royal Challengers Bengaluru,All-Rounder,53.1,56.0,2.9
+5117,KL Rahul,Delhi Capitals,Royal Challengers Bengaluru,Wicket-Keeper,52.8,49.97,2.83
+5118,Sameer Nair,Punjab Kings,Royal Challengers Bengaluru,Batsman,31.2,31.34,0.14
+5118,Jacob Bethell,Royal Challengers Bengaluru,Punjab Kings,All-Rounder,27.2,35.15,7.95
+5118,Aakash Reddy,Punjab Kings,Royal Challengers Bengaluru,All-Rounder,65.1,51.3,13.8
+5118,Kunal Chauhan,Royal Challengers Bengaluru,Punjab Kings,Bowler,23.4,28.71,5.31
+5118,Rohan Kumar,Punjab Kings,Royal Challengers Bengaluru,Wicket-Keeper,33.6,29.83,3.77
+5118,Virat Kohli,Royal Challengers Bengaluru,Punjab Kings,Batsman,64.4,46.95,17.45
+5118,Nikhil Chauhan,Royal Challengers Bengaluru,Punjab Kings,All-Rounder,57.7,61.86,4.16
+5118,Vivek Das,Punjab Kings,Royal Challengers Bengaluru,Bowler,0.8,16.68,15.88
+5118,Nikhil Gupta,Punjab Kings,Royal Challengers Bengaluru,Batsman,11.7,31.78,20.08
+5118,Nikhil Reddy,Punjab Kings,Royal Challengers Bengaluru,Batsman,37.4,26.17,11.23
+5118,Bhuvneshwar Kumar,Royal Challengers Bengaluru,Punjab Kings,Bowler,49.5,52.03,2.53
+5118,Prabhsimran Singh,Punjab Kings,Royal Challengers Bengaluru,Wicket-Keeper,64.2,60.92,3.28
+5118,Shreyas Iyer,Punjab Kings,Royal Challengers Bengaluru,Batsman,38.8,44.87,6.07
+5118,Devdutt Padikkal,Royal Challengers Bengaluru,Punjab Kings,Batsman,47.6,36.64,10.96
+5118,Tim David,Royal Challengers Bengaluru,Punjab Kings,Batsman,26.7,27.04,0.34
+5118,Josh Hazlewood,Royal Challengers Bengaluru,Punjab Kings,Bowler,9.9,17.67,7.77
+5118,Rakesh Menon,Royal Challengers Bengaluru,Punjab Kings,Wicket-Keeper,31.6,31.94,0.34
+5118,Yash Das,Royal Challengers Bengaluru,Punjab Kings,Wicket-Keeper,22.5,19.8,2.7
+5118,Venkatesh Iyer,Royal Challengers Bengaluru,Punjab Kings,All-Rounder,58.9,47.44,11.46
+5118,Arshdeep Singh,Punjab Kings,Royal Challengers Bengaluru,Bowler,49.8,43.01,6.79
+5119,Ajinkya Rahane,Kolkata Knight Riders,Rajasthan Royals,Batsman,34.6,27.41,7.19
+5119,Deepak Gupta,Kolkata Knight Riders,Rajasthan Royals,Batsman,17.9,28.58,10.68
+5119,Rahul Verma,Rajasthan Royals,Kolkata Knight Riders,Batsman,32.3,33.6,1.3
+5119,Aakash Singh,Rajasthan Royals,Kolkata Knight Riders,Bowler,12.1,25.35,13.25
+5119,Vaibhav Sooryavanshi,Rajasthan Royals,Kolkata Knight Riders,Batsman,54.6,48.11,6.49
+5119,Deepak Sharma,Rajasthan Royals,Kolkata Knight Riders,Batsman,18.4,19.02,0.62
+5119,Pranav Reddy,Kolkata Knight Riders,Rajasthan Royals,Wicket-Keeper,9.1,30.96,21.86
+5119,Rakesh Singh,Rajasthan Royals,Kolkata Knight Riders,Wicket-Keeper,0.0,10.12,10.12
+5119,Nikhil Bhat,Kolkata Knight Riders,Rajasthan Royals,Bowler,9.0,10.55,1.55
+5119,Arjun Reddy,Rajasthan Royals,Kolkata Knight Riders,Wicket-Keeper,26.7,19.3,7.4
+5119,Yash Singh,Rajasthan Royals,Kolkata Knight Riders,All-Rounder,43.5,39.23,4.27
+5119,Varun Chakravarthy,Kolkata Knight Riders,Rajasthan Royals,Bowler,26.9,33.49,6.59
+5119,Naveen Gupta,Rajasthan Royals,Kolkata Knight Riders,Bowler,6.2,22.75,16.55
+5119,Pranav Iyer,Rajasthan Royals,Kolkata Knight Riders,Wicket-Keeper,31.8,36.59,4.79
+5119,Aakash Gupta,Kolkata Knight Riders,Rajasthan Royals,Wicket-Keeper,30.7,21.07,9.63
+5119,Vikram Iyer,Kolkata Knight Riders,Rajasthan Royals,Wicket-Keeper,27.0,18.28,8.72
+5119,Aditya Bhat,Kolkata Knight Riders,Rajasthan Royals,All-Rounder,68.9,49.69,19.21
+5119,Siddharth Verma,Kolkata Knight Riders,Rajasthan Royals,Bowler,14.4,19.38,4.98
+5119,Rakesh Nair,Kolkata Knight Riders,Rajasthan Royals,All-Rounder,17.2,27.38,10.18
+5119,Aakash Patel,Rajasthan Royals,Kolkata Knight Riders,Batsman,32.6,20.7,11.9
+5119,Rinku Singh,Kolkata Knight Riders,Rajasthan Royals,Batsman,21.0,23.96,2.96
+5119,Ravi Bishnoi,Rajasthan Royals,Kolkata Knight Riders,Bowler,63.6,52.53,11.07
+5119,Rohan Singh,Rajasthan Royals,Kolkata Knight Riders,All-Rounder,43.9,41.92,1.98
+5120,Kunal Chauhan,Royal Challengers Bengaluru,Mumbai Indians,Bowler,7.2,28.35,21.15
+5120,Rohit Sharma,Mumbai Indians,Royal Challengers Bengaluru,Batsman,35.7,36.75,1.05
+5120,Yash Dayal,Royal Challengers Bengaluru,Mumbai Indians,Bowler,35.5,33.92,1.58
+5120,Quinton de Kock,Mumbai Indians,Royal Challengers Bengaluru,Wicket-Keeper,39.1,35.69,3.41
+5120,Ryan Rickelton,Mumbai Indians,Royal Challengers Bengaluru,Wicket-Keeper,66.9,45.77,21.13
+5120,Ashwani Kumar,Mumbai Indians,Royal Challengers Bengaluru,Bowler,21.8,38.92,17.12
+5120,Phil Salt,Royal Challengers Bengaluru,Mumbai Indians,Wicket-Keeper,41.7,43.77,2.07
+5120,Rajat Patidar,Royal Challengers Bengaluru,Mumbai Indians,Batsman,33.4,31.99,1.41
+5120,Jacob Bethell,Royal Challengers Bengaluru,Mumbai Indians,All-Rounder,59.2,63.46,4.26
+5120,Mayank Markande,Mumbai Indians,Royal Challengers Bengaluru,Bowler,14.6,18.62,4.02
+5120,Keshav Maharaj,Mumbai Indians,Royal Challengers Bengaluru,Bowler,38.2,31.87,6.33
+5120,Mitchell Santner,Mumbai Indians,Royal Challengers Bengaluru,All-Rounder,37.0,44.01,7.01
+5120,Virat Kohli,Royal Challengers Bengaluru,Mumbai Indians,Batsman,42.2,37.91,4.29
+5120,Bhuvneshwar Kumar,Royal Challengers Bengaluru,Mumbai Indians,Bowler,36.8,49.62,12.82
+5120,Raghu Sharma,Mumbai Indians,Royal Challengers Bengaluru,Bowler,39.2,41.36,2.16
+5120,Devdutt Padikkal,Royal Challengers Bengaluru,Mumbai Indians,BATSMAN,48.0,38.13,9.87
+5120,Josh Hazlewood,Royal Challengers Bengaluru,Mumbai Indians,Bowler,36.2,28.04,8.16
+5120,Venkatesh Iyer,Royal Challengers Bengaluru,Mumbai Indians,All-Rounder,66.2,56.78,9.42
+5120,Yash Das,Royal Challengers Bengaluru,Mumbai Indians,Wicket-Keeper,0.0,12.37,12.37
+5120,Rakesh Menon,Royal Challengers Bengaluru,Mumbai Indians,Wicket-Keeper,17.1,20.63,3.53
+5120,Corbin Bosch,Mumbai Indians,Royal Challengers Bengaluru,All-Rounder,33.6,32.74,0.86
+5121,Aditya Chauhan,Delhi Capitals,Kolkata Knight Riders,Wicket-Keeper,23.1,19.93,3.17
+5121,Sameer Sharma,Delhi Capitals,Kolkata Knight Riders,Batsman,41.5,33.39,8.11
+5121,Vikram Singh,Delhi Capitals,Kolkata Knight Riders,Wicket-Keeper,45.1,44.97,0.13
+5121,Rohan Das,Delhi Capitals,Kolkata Knight Riders,Bowler,23.0,22.43,0.57
+5121,Naveen Pillai,Delhi Capitals,Kolkata Knight Riders,All-Rounder,11.4,23.17,11.77
+5121,Vikram Iyer,Kolkata Knight Riders,Delhi Capitals,Wicket-Keeper,46.6,34.57,12.03
+5121,Siddharth Verma,Kolkata Knight Riders,Delhi Capitals,Bowler,45.9,37.71,8.19
+5121,Kunal Kumar,Kolkata Knight Riders,Delhi Capitals,All-Rounder,49.0,46.99,2.01
+5121,Varun Chakravarthy,Kolkata Knight Riders,Delhi Capitals,Bowler,25.4,21.36,4.04
+5121,Axar Patel,Delhi Capitals,Kolkata Knight Riders,All-Rounder,59.9,66.47,6.57
+5121,David Miller,Delhi Capitals,Kolkata Knight Riders,Batsman,21.2,36.96,15.76
+5121,Suresh Patel,Delhi Capitals,Kolkata Knight Riders,All-Rounder,19.7,26.29,6.59
+5121,Naveen Rao,Delhi Capitals,Kolkata Knight Riders,All-Rounder,58.7,64.01,5.31
+5121,Cameron Green,Kolkata Knight Riders,Delhi Capitals,All-Rounder,90.8,99.33,8.53
+5121,KL Rahul,Delhi Capitals,Kolkata Knight Riders,Wicket-Keeper,48.5,39.86,8.64
+5121,Rinku Singh,Kolkata Knight Riders,Delhi Capitals,Batsman,49.5,43.69,5.81
+5121,Aditya Bhat,Kolkata Knight Riders,Delhi Capitals,All-Rounder,61.3,59.61,1.69
+5121,Yash Menon,Delhi Capitals,Kolkata Knight Riders,Bowler,46.3,34.7,11.6
+5121,Pranav Reddy,Kolkata Knight Riders,Delhi Capitals,Wicket-Keeper,26.2,19.38,6.82
+5121,Kuldeep Yadav,Delhi Capitals,Kolkata Knight Riders,Bowler,61.8,50.17,11.63
+5121,Deepak Gupta,Kolkata Knight Riders,Delhi Capitals,Batsman,40.3,40.94,0.64
+5121,Manoj Rao,Kolkata Knight Riders,Delhi Capitals,Batsman,31.0,29.21,1.79
+5122,Aakash Singh,Rajasthan Royals,Chennai Super Kings,Bowler,16.6,17.99,1.39
+5122,Harsha Kumar,Rajasthan Royals,Chennai Super Kings,All-Rounder,44.1,35.16,8.94
+5122,Naveen Bhat,Chennai Super Kings,Rajasthan Royals,Batsman,3.0,9.15,6.15
+5122,Prashant Veer,Chennai Super Kings,Rajasthan Royals,All-Rounder,24.0,19.95,4.05
+5122,Sanju Samson,Chennai Super Kings,Rajasthan Royals,Wicket-Keeper,68.1,43.64,24.46
+5122,Naveen Gupta,Rajasthan Royals,Chennai Super Kings,Bowler,13.2,8.79,4.41
+5122,Rohan Chauhan,Chennai Super Kings,Rajasthan Royals,Bowler,30.2,28.71,1.49
+5122,Rohan Gupta,Chennai Super Kings,Rajasthan Royals,Wicket-Keeper,23.8,24.5,0.7
+5122,Pranav Iyer,Rajasthan Royals,Chennai Super Kings,Wicket-Keeper,24.6,33.68,9.08
+5122,Noor Ahmad,Chennai Super Kings,Rajasthan Royals,Bowler,23.9,40.36,16.46
+5122,Vaibhav Sooryavanshi,Rajasthan Royals,Chennai Super Kings,Batsman,51.6,40.95,10.65
+5122,Rahul Verma,Rajasthan Royals,Chennai Super Kings,Batsman,9.8,25.27,15.47
+5122,Deepak Sharma,Rajasthan Royals,Chennai Super Kings,Batsman,7.2,16.89,9.69
+5122,Rakesh Singh,Rajasthan Royals,Chennai Super Kings,Wicket-Keeper,0.0,9.81,9.81
+5122,Kartik Sharma,Chennai Super Kings,Rajasthan Royals,Batsman,31.0,20.14,10.86
+5122,Yash Singh,Rajasthan Royals,Chennai Super Kings,All-Rounder,22.3,36.93,14.63
+5122,Urvil Patel,Chennai Super Kings,Rajasthan Royals,Wicket-Keeper,39.1,30.19,8.91
+5122,Matthew Short,Chennai Super Kings,Rajasthan Royals,Batsman,17.3,15.83,1.47
+5122,Anshul Kamboj,Chennai Super Kings,Rajasthan Royals,Bowler,75.5,59.71,15.79
+5122,Jofra Archer,Rajasthan Royals,Chennai Super Kings,Bowler,40.6,45.06,4.46
+5123,Vaibhav Sooryavanshi,Rajasthan Royals,Lucknow Super Giants,Batsman,44.8,46.44,1.64
+5123,Arjun Rao,Lucknow Super Giants,Rajasthan Royals,Bowler,17.4,17.49,0.09
+5123,Pranav Iyer,Rajasthan Royals,Lucknow Super Giants,Wicket-Keeper,43.5,33.27,10.23
+5123,Manoj Sharma,Lucknow Super Giants,Rajasthan Royals,Batsman,14.3,21.46,7.16
+5123,Rakesh Sharma,Lucknow Super Giants,Rajasthan Royals,Batsman,44.7,26.0,18.7
+5123,Tarun Iyer,Lucknow Super Giants,Rajasthan Royals,Wicket-Keeper,46.0,38.6,7.4
+5123,Rohan Singh,Rajasthan Royals,Lucknow Super Giants,All-Rounder,43.5,51.23,7.73
+5123,Prince Yadav,Lucknow Super Giants,Rajasthan Royals,Bowler,36.7,54.79,18.09
+5123,Suresh Menon,Lucknow Super Giants,Rajasthan Royals,All-Rounder,20.0,25.71,5.71
+5123,Yash Singh,Rajasthan Royals,Lucknow Super Giants,All-Rounder,17.0,23.62,6.62
+5123,Varun Bhat,Lucknow Super Giants,Rajasthan Royals,Wicket-Keeper,36.3,25.62,10.68
+5123,Rakesh Iyer,Lucknow Super Giants,Rajasthan Royals,All-Rounder,32.2,26.49,5.71
+5123,Rakesh Singh,Rajasthan Royals,Lucknow Super Giants,Wicket-Keeper,15.3,4.11,11.19
+5123,Ravi Bishnoi,Rajasthan Royals,Lucknow Super Giants,Bowler,36.4,37.96,1.56
+5123,Naveen Gupta,Rajasthan Royals,Lucknow Super Giants,Bowler,15.1,8.42,6.68
+5123,Jofra Archer,Rajasthan Royals,Lucknow Super Giants,Bowler,60.7,67.28,6.58
+5123,Arjun Reddy,Rajasthan Royals,Lucknow Super Giants,Wicket-Keeper,36.3,14.01,22.29
+5123,Harsha Kumar,Rajasthan Royals,Lucknow Super Giants,All-Rounder,30.8,26.78,4.02
+5123,Yash Chauhan,Lucknow Super Giants,Rajasthan Royals,Batsman,40.5,27.27,13.23
+5123,Rahul Verma,Rajasthan Royals,Lucknow Super Giants,Batsman,5.3,19.96,14.66
+5123,Varun Rao,Lucknow Super Giants,Rajasthan Royals,Batsman,27.7,29.31,1.61
+5123,Manoj Menon,Rajasthan Royals,Lucknow Super Giants,Bowler,17.0,19.28,2.28
+5124,Tarun Iyer,Lucknow Super Giants,Royal Challengers Bengaluru,Wicket-Keeper,45.8,39.42,6.38
+5124,Varun Bhat,Lucknow Super Giants,Royal Challengers Bengaluru,Wicket-Keeper,15.7,33.51,17.81
+5124,Varun Rao,Lucknow Super Giants,Royal Challengers Bengaluru,Batsman,19.5,19.65,0.15
+5124,Josh Hazlewood,Royal Challengers Bengaluru,Lucknow Super Giants,Bowler,30.0,18.99,11.01
+5124,Virat Kohli,Royal Challengers Bengaluru,Lucknow Super Giants,Batsman,43.3,48.71,5.41
+5124,Manoj Reddy,Lucknow Super Giants,Royal Challengers Bengaluru,Bowler,69.1,57.55,11.55
+5124,Arjun Rao,Lucknow Super Giants,Royal Challengers Bengaluru,Bowler,11.6,14.98,3.38
+5124,Yash Verma,Royal Challengers Bengaluru,Lucknow Super Giants,Batsman,39.0,27.9,11.1
+5124,Naveen Menon,Lucknow Super Giants,Royal Challengers Bengaluru,Wicket-Keeper,8.4,16.17,7.77
+5124,Nikhil Chauhan,Royal Challengers Bengaluru,Lucknow Super Giants,All-Rounder,26.2,21.14,5.06
+5124,Rakesh Menon,Royal Challengers Bengaluru,Lucknow Super Giants,Wicket-Keeper,27.0,34.83,7.83
+5124,Rajat Patidar,Royal Challengers Bengaluru,Lucknow Super Giants,Batsman,32.6,36.46,3.86
+5124,Naveen Patel,Lucknow Super Giants,Royal Challengers Bengaluru,Bowler,24.3,42.38,18.08
+5124,Prince Yadav,Lucknow Super Giants,Royal Challengers Bengaluru,Bowler,49.3,46.65,2.65
+5124,Varun Patel,Lucknow Super Giants,Royal Challengers Bengaluru,All-Rounder,16.1,34.15,18.05
+5124,Tim David,Royal Challengers Bengaluru,Lucknow Super Giants,Batsman,33.5,34.15,0.65
+5124,Venkatesh Iyer,Royal Challengers Bengaluru,Lucknow Super Giants,All-Rounder,56.2,54.32,1.88
+5124,Phil Salt,Royal Challengers Bengaluru,Lucknow Super Giants,Wicket-Keeper,42.2,43.8,1.6
+5124,Yash Chauhan,Lucknow Super Giants,Royal Challengers Bengaluru,Batsman,14.4,15.73,1.33
+5124,Jacob Bethell,Royal Challengers Bengaluru,Lucknow Super Giants,All-Rounder,25.3,43.37,18.07
+5124,Yash Das,Royal Challengers Bengaluru,Lucknow Super Giants,Wicket-Keeper,25.5,16.14,9.36
+5125,Sameer Sharma,Delhi Capitals,Punjab Kings,Batsman,12.8,32.81,20.01
+5125,Vikram Singh,Delhi Capitals,Punjab Kings,Wicket-Keeper,49.6,40.57,9.03
+5125,KL Rahul,Delhi Capitals,Punjab Kings,Wicket-Keeper,46.9,49.62,2.72
+5125,Vivek Kumar,Punjab Kings,Delhi Capitals,Wicket-Keeper,18.1,10.18,7.92
+5125,Aditya Chauhan,Delhi Capitals,Punjab Kings,Wicket-Keeper,9.1,23.07,13.97
+5125,Naveen Pillai,Delhi Capitals,Punjab Kings,All-Rounder,27.8,34.83,7.03
+5125,Harsha Chauhan,Punjab Kings,Delhi Capitals,All-Rounder,42.0,35.34,6.66
+5125,Nikhil Reddy,Punjab Kings,Delhi Capitals,Batsman,26.6,23.65,2.95
+5125,Naveen Iyer,Punjab Kings,Delhi Capitals,All-Rounder,51.6,56.94,5.34
+5125,Xavier Bartlett,Punjab Kings,Delhi Capitals,Bowler,6.2,20.45,14.25
+5125,Rohan Das,Delhi Capitals,Punjab Kings,Bowler,46.2,42.85,3.35
+5125,Axar Patel,Delhi Capitals,Punjab Kings,All-Rounder,73.4,76.12,2.72
+5125,Kuldeep Yadav,Delhi Capitals,Punjab Kings,Bowler,86.9,73.77,13.13
+5125,Rohan Kumar,Punjab Kings,Delhi Capitals,Wicket-Keeper,17.2,14.59,2.61
+5125,Vivek Das,Punjab Kings,Delhi Capitals,Bowler,0.0,17.13,17.13
+5125,David Miller,Delhi Capitals,Punjab Kings,Batsman,34.7,41.46,6.76
+5125,Naveen Rao,Delhi Capitals,Punjab Kings,All-Rounder,45.2,44.83,0.37
+5125,Prabhsimran Singh,Punjab Kings,Delhi Capitals,Wicket-Keeper,53.6,54.6,1.0
+5125,Aakash Reddy,Punjab Kings,Delhi Capitals,All-Rounder,58.0,45.17,12.83
+5125,Siddharth Sharma,Punjab Kings,Delhi Capitals,Bowler,0.0,2.39,2.39
+5126,Manoj Reddy,Lucknow Super Giants,Punjab Kings,Bowler,41.5,30.0,11.5
+5126,Naveen Menon,Lucknow Super Giants,Punjab Kings,Wicket-Keeper,21.4,22.9,1.5
+5126,Aakash Reddy,Punjab Kings,Lucknow Super Giants,All-Rounder,26.7,32.68,5.98
+5126,Siddharth Sharma,Punjab Kings,Lucknow Super Giants,Bowler,11.8,16.19,4.39
+5126,Varun Rao,Lucknow Super Giants,Punjab Kings,Batsman,22.7,20.37,2.33
+5126,Nikhil Gupta,Punjab Kings,Lucknow Super Giants,Batsman,53.1,46.74,6.36
+5126,Arjun Rao,Lucknow Super Giants,Punjab Kings,Bowler,28.5,22.9,5.6
+5126,Yash Chauhan,Lucknow Super Giants,Punjab Kings,Batsman,17.4,26.01,8.61
+5126,Tarun Iyer,Lucknow Super Giants,Punjab Kings,Wicket-Keeper,41.6,35.24,6.36
+5126,Vikram Verma,Lucknow Super Giants,Punjab Kings,All-Rounder,25.7,22.15,3.55
+5126,Xavier Bartlett,Punjab Kings,Lucknow Super Giants,Bowler,21.8,19.76,2.04
+5126,Shreyas Iyer,Punjab Kings,Lucknow Super Giants,Batsman,31.4,27.49,3.91
+5126,Vivek Kumar,Punjab Kings,Lucknow Super Giants,Wicket-Keeper,9.1,18.81,9.71
+5126,Tarun Chauhan,Punjab Kings,Lucknow Super Giants,Wicket-Keeper,0.0,17.65,17.65
+5126,Vivek Das,Punjab Kings,Lucknow Super Giants,Bowler,31.3,27.95,3.35
+5126,Manoj Sharma,Lucknow Super Giants,Punjab Kings,Batsman,12.5,20.33,7.83
+5126,Varun Patel,Lucknow Super Giants,Punjab Kings,All-Rounder,8.1,17.24,9.14
+5126,Naveen Patel,Lucknow Super Giants,Punjab Kings,Bowler,52.4,50.19,2.21
+5126,Suresh Menon,Lucknow Super Giants,Punjab Kings,All-Rounder,55.5,61.38,5.88
+5126,Prabhsimran Singh,Punjab Kings,Lucknow Super Giants,Wicket-Keeper,72.7,56.47,16.23
+5127,Brydon Carse,Sunrisers Hyderabad,Mumbai Indians,Bowler,32.0,32.09,0.09
+5127,Pat Cummins,Sunrisers Hyderabad,Mumbai Indians,Bowler,41.3,40.08,1.22
+5127,Raj Angad Bawa,Mumbai Indians,Sunrisers Hyderabad,All-Rounder,37.5,24.97,12.53
+5127,Vivek Bhat,Sunrisers Hyderabad,Mumbai Indians,BOWLER,34.3,30.13,4.17
+5127,Deepak Chahar,Mumbai Indians,Sunrisers Hyderabad,Bowler,40.6,43.01,2.41
+5127,Kamindu Mendis,Sunrisers Hyderabad,Mumbai Indians,All-Rounder,18.1,22.24,4.14
+5127,Nitish Kumar Reddy,Sunrisers Hyderabad,Mumbai Indians,All-Rounder,62.2,62.33,0.13
+5127,Suryakumar Yadav,Mumbai Indians,Sunrisers Hyderabad,Batsman,59.0,46.66,12.34
+5127,Eshan Malinga,Sunrisers Hyderabad,Mumbai Indians,Bowler,73.5,64.21,9.29
+5127,Pranav Patel,Sunrisers Hyderabad,Mumbai Indians,Wicket-Keeper,31.1,19.91,11.19
+5127,Rohit Sharma,Mumbai Indians,Sunrisers Hyderabad,Batsman,46.4,30.13,16.27
+5127,Zeeshan Ansari,Sunrisers Hyderabad,Mumbai Indians,Bowler,50.0,33.79,16.21
+5127,Jaydev Unadkat,Sunrisers Hyderabad,Mumbai Indians,Bowler,50.1,49.63,0.47
+5127,Smaran Ravichandran,Sunrisers Hyderabad,Mumbai Indians,Batsman,30.1,26.57,3.53
+5127,Keshav Maharaj,Mumbai Indians,Sunrisers Hyderabad,Bowler,43.1,34.84,8.26
+5127,Mohammed Izhar,Mumbai Indians,Sunrisers Hyderabad,Bowler,17.7,24.82,7.12
+5127,Corbin Bosch,Mumbai Indians,Sunrisers Hyderabad,All-Rounder,55.9,36.79,19.11
+5127,Tilak Varma,Mumbai Indians,Sunrisers Hyderabad,All-Rounder,59.2,55.58,3.62
+5127,Trent Boult,Mumbai Indians,Sunrisers Hyderabad,Bowler,33.3,27.64,5.66
+5127,Robin Minz,Mumbai Indians,Sunrisers Hyderabad,Wicket-Keeper,55.9,29.77,26.13
+5127,Naman Dhir,Mumbai Indians,Sunrisers Hyderabad,All-Rounder,18.0,26.81,8.81
+5127,Heinrich Klaasen,Sunrisers Hyderabad,Mumbai Indians,Wicket-Keeper,47.7,38.36,9.34
+5127,Ishan Kishan,Sunrisers Hyderabad,Mumbai Indians,Wicket-Keeper,56.7,52.97,3.73
+5127,Mahipal Lomror,Mumbai Indians,Sunrisers Hyderabad,All-Rounder,37.4,44.25,6.85
+5128,Mohammed Siraj,Gujarat Titans,Chennai Super Kings,Bowler,39.0,40.68,1.68
+5128,Prashant Veer,Chennai Super Kings,Gujarat Titans,All-Rounder,33.0,27.86,5.14
+5128,Kartik Sharma,Chennai Super Kings,Gujarat Titans,Batsman,25.3,26.9,1.6
+5128,Aakash Menon,Gujarat Titans,Chennai Super Kings,All-Rounder,52.6,49.59,3.01
+5128,Siddharth Gupta,Gujarat Titans,Chennai Super Kings,Wicket-Keeper,29.8,33.13,3.33
+5128,Shivam Dube,Chennai Super Kings,Gujarat Titans,All-Rounder,62.9,67.37,4.47
+5128,Harsha Reddy,Gujarat Titans,Chennai Super Kings,Wicket-Keeper,20.1,28.05,7.95
+5128,Rakesh Reddy,Gujarat Titans,Chennai Super Kings,Bowler,24.6,27.67,3.07
+5128,Rashid Khan,Gujarat Titans,Chennai Super Kings,Bowler,80.7,78.62,2.08
+5128,Harsha Menon,Chennai Super Kings,Gujarat Titans,All-Rounder,28.3,31.32,3.02
+5128,Suresh Chauhan,Gujarat Titans,Chennai Super Kings,Bowler,44.6,36.97,7.63
+5128,Anshul Kamboj,Chennai Super Kings,Gujarat Titans,Bowler,43.1,53.52,10.42
+5128,Ruturaj Gaikwad,Chennai Super Kings,Gujarat Titans,Batsman,59.6,39.92,19.68
+5128,Matthew Short,Chennai Super Kings,Gujarat Titans,Batsman,8.9,21.47,12.57
+5128,Pranav Sharma,Gujarat Titans,Chennai Super Kings,All-Rounder,29.8,46.28,16.48
+5128,MS Dhoni,Chennai Super Kings,Gujarat Titans,Wicket-Keeper,38.2,30.87,7.33
+5128,Rohan Chauhan,Chennai Super Kings,Gujarat Titans,Bowler,31.1,31.92,0.82
+5128,Sameer Iyer,Gujarat Titans,Chennai Super Kings,ALL-ROUNDER,28.8,30.99,2.19
+5128,Urvil Patel,Chennai Super Kings,Gujarat Titans,Wicket-Keeper,31.3,36.52,5.22
+5129,Rashid Khan,Gujarat Titans,Delhi Capitals,Bowler,48.4,54.05,5.65
+5129,Harsha Reddy,Gujarat Titans,Delhi Capitals,Wicket-Keeper,40.6,37.32,3.28
+5129,Naveen Pillai,Delhi Capitals,Gujarat Titans,All-Rounder,24.6,36.33,11.73
+5129,Suresh Patel,Delhi Capitals,Gujarat Titans,All-Rounder,54.6,59.25,4.65
+5129,Kuldeep Yadav,Delhi Capitals,Gujarat Titans,Bowler,64.3,67.57,3.27
+5129,Axar Patel,Delhi Capitals,Gujarat Titans,All-Rounder,55.7,63.18,7.48
+5129,Rahul Gupta,Gujarat Titans,Delhi Capitals,Batsman,18.3,20.58,2.28
+5129,Sameer Rizvi,Delhi Capitals,Gujarat Titans,Batsman,15.7,27.37,11.67
+5129,Naveen Rao,Delhi Capitals,Gujarat Titans,All-Rounder,62.4,44.63,17.77
+5129,Siddharth Gupta,Gujarat Titans,Delhi Capitals,Wicket-Keeper,10.9,21.51,10.61
+5129,Mohammed Siraj,Gujarat Titans,Delhi Capitals,BOWLER,65.9,61.33,4.57
+5129,Rakesh Reddy,Gujarat Titans,Delhi Capitals,Bowler,28.2,23.47,4.73
+5129,Prasidh Krishna,Gujarat Titans,Delhi Capitals,Bowler,34.2,28.62,5.58
+5129,Pranav Sharma,Gujarat Titans,Delhi Capitals,All-Rounder,42.8,43.98,1.18
+5129,Rakesh Bhat,Delhi Capitals,Gujarat Titans,Bowler,11.9,24.19,12.29
+5129,Aakash Menon,Gujarat Titans,Delhi Capitals,All-Rounder,26.8,28.0,1.2
+5129,Suresh Chauhan,Gujarat Titans,Delhi Capitals,BOWLER,15.7,26.84,11.14
+5129,KL Rahul,Delhi Capitals,Gujarat Titans,Wicket-Keeper,41.8,36.32,5.48
+5129,Kagiso Rabada,Gujarat Titans,Delhi Capitals,Bowler,55.8,63.48,7.68
+5129,Rohan Das,Delhi Capitals,Gujarat Titans,Bowler,19.4,26.16,6.76
+5130,Vivek Kumar,Punjab Kings,Royal Challengers Bengaluru,Wicket-Keeper,13.5,25.75,12.25
+5130,Kunal Chauhan,Royal Challengers Bengaluru,Punjab Kings,Bowler,34.4,47.1,12.7
+5130,Josh Hazlewood,Royal Challengers Bengaluru,Punjab Kings,Bowler,47.3,38.54,8.76
+5130,Harsha Chauhan,Punjab Kings,Royal Challengers Bengaluru,ALL-ROUNDER,56.8,44.27,12.53
+5130,Shreyas Iyer,Punjab Kings,Royal Challengers Bengaluru,Batsman,51.4,54.43,3.03
+5130,Nikhil Reddy,Punjab Kings,Royal Challengers Bengaluru,Batsman,27.3,27.47,0.17
+5130,Nikhil Gupta,Punjab Kings,Royal Challengers Bengaluru,Batsman,43.8,39.0,4.8
+5130,Nikhil Chauhan,Royal Challengers Bengaluru,Punjab Kings,All-Rounder,56.3,37.14,19.16
+5130,Devdutt Padikkal,Royal Challengers Bengaluru,Punjab Kings,Batsman,24.7,36.07,11.37
+5130,Xavier Bartlett,Punjab Kings,Royal Challengers Bengaluru,Bowler,23.2,33.75,10.55
+5130,Siddharth Sharma,Punjab Kings,Royal Challengers Bengaluru,Bowler,15.5,20.32,4.82
+5130,Bhuvneshwar Kumar,Royal Challengers Bengaluru,Punjab Kings,Bowler,50.4,55.79,5.39
+5130,Venkatesh Iyer,Royal Challengers Bengaluru,Punjab Kings,All-Rounder,90.5,68.51,21.99
+5130,Naveen Iyer,Punjab Kings,Royal Challengers Bengaluru,All-Rounder,43.1,42.33,0.77
+5130,Arshdeep Singh,Punjab Kings,Royal Challengers Bengaluru,Bowler,52.5,48.6,3.9
+5130,Tim David,Royal Challengers Bengaluru,Punjab Kings,Batsman,18.8,31.64,12.84
+5130,Virat Kohli,Royal Challengers Bengaluru,Punjab Kings,Batsman,37.3,48.69,11.39
+5130,Yash Verma,Royal Challengers Bengaluru,Punjab Kings,Batsman,32.5,25.77,6.73
+5130,Vivek Das,Punjab Kings,Royal Challengers Bengaluru,Bowler,17.5,18.77,1.27

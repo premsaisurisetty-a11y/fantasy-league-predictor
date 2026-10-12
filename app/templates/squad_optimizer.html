@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+
+{% block title %}FantasyScore AI - Optimal Fantasy XI Squad Builder{% endblock %}
+
+{% macro render_pitch_card(p) %}
+<div class="pitch-player-card" style="width: 150px; background: rgba(15, 23, 42, 0.85); border: 1px solid {% if p.is_captain %}#f59e0b{% elif p.is_vice_captain %}#8b5cf6{% else %}rgba(51, 65, 85, 0.7){% endif %}; border-radius: 12px; padding: 12px 8px; text-align: center; position: relative; box-shadow: var(--shadow-sm); backdrop-filter: blur(8px);">
+  {% if p.is_captain %}
+  <div style="position: absolute; top: -8px; right: -6px; background: #f59e0b; color: #000; font-weight: 800; font-size: 10px; padding: 2px 6px; border-radius: 9999px; box-shadow: 0 2px 4px rgba(0,0,0,0.4);">
+    C (2.0×)
+  </div>
+  {% elif p.is_vice_captain %}
+  <div style="position: absolute; top: -8px; right: -6px; background: #8b5cf6; color: #fff; font-weight: 800; font-size: 10px; padding: 2px 6px; border-radius: 9999px; box-shadow: 0 2px 4px rgba(0,0,0,0.4);">
+    VC (1.5×)
+  </div>
+  {% endif %}
+
+  <div style="width: 52px; height: 52px; border-radius: 50%; overflow: hidden; margin: 0 auto 8px auto; border: 2px solid {% if p.is_captain %}#f59e0b{% elif p.is_vice_captain %}#8b5cf6{% else %}var(--accent-cyan){% endif %}; background: #1e293b;">
+    {% if p.image_url %}
+    <img src="{{ p.image_url }}" alt="{{ p.player_name }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+    <div style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center; font-weight: 700; color: var(--text-primary); font-size: 14px;">{{ p.initials }}</div>
+    {% else %}
+    <div style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; font-weight: 700; color: var(--text-primary); font-size: 14px;">{{ p.initials }}</div>
+    {% endif %}
+  </div>
+
+  <div style="font-weight: 700; font-size: 12px; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ p.player_name }}">
+    {{ p.player_name }}
+  </div>
+  <div style="font-size: 10px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px;">
+    {{ p.team }}
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(2, 6, 23, 0.6); padding: 4px 6px; border-radius: 6px; font-size: 10px;">
+    <span style="color: var(--accent-emerald); font-weight: 600;">{{ p.credits }} Cr</span>
+    <span style="color: var(--accent-cyan); font-weight: 700;">{{ p.effective_points }} pts</span>
+  </div>
+</div>
+{% endmacro %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Optimal Fantasy XI Squad Builder</h2>
+    <p>Algorithmic Mixed-Integer Linear Programming (MILP) solver that maximizes projected fantasy returns under official 100-credit salary caps & role constraints</p>
+  </div>
+  <div style="display: flex; gap: 10px;">
+    <button onclick="window.print()" class="btn-submit" style="background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); text-decoration: none; padding: 10px 18px; font-size: 14px; cursor: pointer; color: var(--text-primary);">
+      <span>🖨️</span> Print / PDF
+    </button>
+    <a href="/rankings" class="btn-submit" style="text-decoration: none; padding: 10px 18px; font-size: 14px;">
+      <span>🏆</span> View All Rankings
+    </a>
+  </div>
+</div>
+
+<!-- Matchup & Budget Filter Form -->
+<div class="panel-card" style="margin-bottom: 24px;">
+  <form method="GET" action="/squad-optimizer" class="grid-form" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); align-items: flex-end; gap: 16px;">
+    <div class="form-group">
+      <label class="form-label">Team 1 (Optional Match Filter)</label>
+      <select name="team1" class="form-control" id="optTeam1">
+        <option value="">All Teams (League Dream Team)</option>
+        {% for t in teams %}
+        <option value="{{ t }}" {% if selected_team1 == t %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Team 2 (Opponent)</label>
+      <select name="team2" class="form-control" id="optTeam2">
+        <option value="">All Teams (League Dream Team)</option>
+        {% for t in teams %}
+        <option value="{{ t }}" {% if selected_team2 == t %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Credit Cap (Default: 100.0)</label>
+      <input type="number" step="0.5" min="70" max="110" name="budget" class="form-control" value="{{ budget }}">
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn-submit" style="width: 100%; height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <span>⚡</span> Optimize Squad
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Squad Summary Stats Grid -->
+<div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 24px;">
+  <div class="stat-card" style="border-top: 3px solid var(--accent-cyan);">
+    <div class="stat-label">Total Projected Points</div>
+    <div class="stat-value" style="color: var(--accent-cyan); font-size: 28px;">
+      {{ optimized.total_projected_score }} <span style="font-size: 14px; color: var(--text-muted);">pts</span>
+    </div>
+    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">
+      Includes C (2.0×) & VC (1.5×) multipliers
+    </div>
+  </div>
+
+  <div class="stat-card" style="border-top: 3px solid var(--accent-emerald);">
+    <div class="stat-label">Credits Consumed</div>
+    <div class="stat-value" style="color: var(--accent-emerald); font-size: 28px;">
+      {{ optimized.total_credits }} <span style="font-size: 14px; color: var(--text-muted);">/ {{ budget }}</span>
+    </div>
+    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">
+      {{ (budget - optimized.total_credits)|round(1) }} Credits in Reserve
+    </div>
+  </div>
+
+  <div class="stat-card" style="border-top: 3px solid var(--accent-amber);">
+    <div class="stat-label">★ Captain Pick (2.0×)</div>
+    {% if optimized.captain %}
+    <div class="stat-value" style="color: var(--accent-amber); font-size: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+      {{ optimized.captain.player_name }}
+    </div>
+    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">
+      {{ optimized.captain.predicted_points }} pts &rarr; <strong>{{ optimized.captain.effective_points }} pts</strong>
+    </div>
+    {% else %}
+    <div class="stat-value">-</div>
+    {% endif %}
+  </div>
+
+  <div class="stat-card" style="border-top: 3px solid var(--accent-purple);">
+    <div class="stat-label">◆ Vice-Captain (1.5×)</div>
+    {% if optimized.vice_captain %}
+    <div class="stat-value" style="color: var(--accent-purple); font-size: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+      {{ optimized.vice_captain.player_name }}
+    </div>
+    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">
+      {{ optimized.vice_captain.predicted_points }} pts &rarr; <strong>{{ optimized.vice_captain.effective_points }} pts</strong>
+    </div>
+    {% else %}
+    <div class="stat-value">-</div>
+    {% endif %}
+  </div>
+
+  <div class="stat-card" style="border-top: 3px solid var(--accent-blue);">
+    <div class="stat-label">Lineup Balance</div>
+    <div class="stat-value" style="font-size: 18px; color: var(--text-primary); margin-top: 4px;">
+      {{ optimized.role_counts.wk }} WK • {{ optimized.role_counts.bat }} BAT • {{ optimized.role_counts.ar }} AR • {{ optimized.role_counts.bow }} BOW
+    </div>
+    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">
+      11 Selected Players
+    </div>
+  </div>
+</div>
+
+<!-- Tactical Pitch Formation View -->
+<div class="panel-card" style="margin-bottom: 24px; background: linear-gradient(180deg, #0b1f1c 0%, #061514 100%); border: 1px solid rgba(16, 185, 129, 0.3);">
+  <div class="panel-header" style="border-bottom: 1px solid rgba(16, 185, 129, 0.2);">
+    <div class="panel-title" style="color: #6ee7b7;">
+      <span>🏏</span> Tactical Formation Board (11 Players)
+    </div>
+    <span class="panel-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">
+      Official 0-1 Knapsack Global Optimum
+    </span>
+  </div>
+
+  <div style="padding: 24px 12px; display: flex; flex-direction: column; gap: 28px;">
+    <!-- Wicket Keepers -->
+    <div>
+      <div style="text-align: center; font-size: 12px; font-weight: 700; color: #a7f3d0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">
+        🧤 Wicket-Keepers ({{ optimized.by_role['Wicket-Keeper']|length }})
+      </div>
+      <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 16px;">
+        {% for p in optimized.by_role['Wicket-Keeper'] %}
+          {{ render_pitch_card(p) }}
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Batsmen -->
+    <div>
+      <div style="text-align: center; font-size: 12px; font-weight: 700; color: #a7f3d0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">
+        🏏 Batsmen ({{ optimized.by_role['Batsman']|length }})
+      </div>
+      <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 16px;">
+        {% for p in optimized.by_role['Batsman'] %}
+          {{ render_pitch_card(p) }}
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- All-Rounders -->
+    <div>
+      <div style="text-align: center; font-size: 12px; font-weight: 700; color: #a7f3d0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">
+        ⚡ All-Rounders ({{ optimized.by_role['All-Rounder']|length }})
+      </div>
+      <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 16px;">
+        {% for p in optimized.by_role['All-Rounder'] %}
+          {{ render_pitch_card(p) }}
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Bowlers -->
+    <div>
+      <div style="text-align: center; font-size: 12px; font-weight: 700; color: #a7f3d0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">
+        🎯 Bowlers ({{ optimized.by_role['Bowler']|length }})
+      </div>
+      <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 16px;">
+        {% for p in optimized.by_role['Bowler'] %}
+          {{ render_pitch_card(p) }}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detailed Squad Roster Table -->
+<div class="panel-card">
+  <div class="panel-header">
+    <div class="panel-title">
+      <span>📋</span> Squad Player Contribution Breakdown
+    </div>
+    <button onclick="copySquadToClipboard()" class="btn-submit" style="padding: 6px 14px; font-size: 12px; cursor: pointer;">
+      <span>📋</span> Copy Roster
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Designation</th>
+          <th>Player Name</th>
+          <th>Franchise Team</th>
+          <th>Role</th>
+          <th style="text-align: right;">Credits</th>
+          <th style="text-align: right;">Projected Base</th>
+          <th style="text-align: center;">Multiplier</th>
+          <th style="text-align: right;">Effective Points</th>
+          <th style="text-align: center;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in optimized.squad %}
+        <tr>
+          <td>
+            {% if p.is_captain %}
+            <span style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; padding: 2px 8px; border-radius: 9999px; font-weight: 700; font-size: 11px;">
+              ★ CAPTAIN (2.0×)
+            </span>
+            {% elif p.is_vice_captain %}
+            <span style="background: rgba(139, 92, 246, 0.2); color: #a78bfa; border: 1px solid #8b5cf6; padding: 2px 8px; border-radius: 9999px; font-weight: 700; font-size: 11px;">
+              ◆ VICE-CAPTAIN (1.5×)
+            </span>
+            {% else %}
+            <span style="color: var(--text-muted); font-size: 12px;">Standard</span>
+            {% endif %}
+          </td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div class="player-avatar-mini">
+                {% if p.image_url %}
+                <img src="{{ p.image_url }}" alt="{{ p.player_name }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <span class="avatar-initials-mini" style="display: none;">{{ p.initials }}</span>
+                {% else %}
+                <span class="avatar-initials-mini">{{ p.initials }}</span>
+                {% endif %}
+              </div>
+              <div>
+                <a href="/?player={{ p.player_name|urlencode }}" style="color: var(--text-primary); text-decoration: none; font-weight: 600;">
+                  {{ p.player_name }}
+                </a>
+              </div>
+            </div>
+          </td>
+          <td>{{ p.team }}</td>
+          <td>
+            <span class="role-badge role-{{ p.player_role|lower|replace(' ', '-') }}">
+              {{ p.player_role }}
+            </span>
+          </td>
+          <td style="text-align: right; font-weight: 600; color: var(--accent-emerald);">
+            {{ p.credits }} Cr
+          </td>
+          <td style="text-align: right; font-weight: 600; color: var(--text-primary);">
+            {{ p.predicted_points }}
+          </td>
+          <td style="text-align: center; font-weight: 700; color: {% if p.is_captain %}#f59e0b{% elif p.is_vice_captain %}#a78bfa{% else %}var(--text-muted){% endif %};">
+            {{ p.multiplier }}×
+          </td>
+          <td style="text-align: right; font-weight: 700; color: var(--accent-cyan); font-size: 15px;">
+            {{ p.effective_points }}
+          </td>
+          <td style="text-align: center;">
+            <a href="/?player={{ p.player_name|urlencode }}" class="btn-action" title="Analyze Player">
+              <span>🎯</span> Predict
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr style="background: rgba(15, 23, 42, 0.9); font-weight: 700; border-top: 2px solid var(--border-color);">
+          <td colspan="4" style="text-align: right; color: var(--text-primary);">SQUAD TOTALS:</td>
+          <td style="text-align: right; color: var(--accent-emerald);">{{ optimized.total_credits }} Cr</td>
+          <td style="text-align: right; color: var(--text-primary);">{{ optimized.base_points }} pts</td>
+          <td style="text-align: center;">-</td>
+          <td style="text-align: right; color: var(--accent-cyan); font-size: 16px;">{{ optimized.total_projected_score }} pts</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<script>
+function copySquadToClipboard() {
+  const players = [
+    {% for p in optimized.squad %}
+    "{{ loop.index }}. {{ p.player_name }} ({{ p.team }}) - {{ p.player_role }} [{{ p.credits }} Cr] -> {{ p.effective_points }} pts {% if p.is_captain %}(C){% elif p.is_vice_captain %}(VC){% endif %}",
+    {% endfor %}
+  ];
+  const text = "⚡ FantasyScore AI - Optimal 11-Player Lineup ⚡\n" +
+               "Projected Score: {{ optimized.total_projected_score }} pts | Budget: {{ optimized.total_credits }}/{{ budget }} Cr\n\n" +
+               players.join("\n");
+
+  navigator.clipboard.writeText(text).then(() => {
+    alert("Optimal Fantasy Lineup copied to clipboard!");
+  }).catch(err => {
+    console.error("Clipboard copy failed: ", err);
+  });
+}
+</script>
+{% endblock %}

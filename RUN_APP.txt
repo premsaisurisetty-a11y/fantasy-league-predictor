@@ -1,0 +1,28 @@
+========================================================================
+ Fantasy League Score Prediction Using LightGBM Gradient-Boosted Trees
+========================================================================
+
+How to Run the Application:
+
+1. Install Dependencies:
+   pip install -r requirements.txt
+
+2. (Optional) Re-train the LightGBM Model & Generate Metrics/Graphs:
+   python src/train.py
+
+3. (Optional) Run CLI Prediction on a Dataset:
+   python src/predict.py data/raw/fantasy_league_dataset.csv
+
+4. Launch the Web Application:
+   python app/app.py
+   (or cd app && python app.py)
+
+5. Open your Web Browser and navigate to:
+   http://127.0.0.1:5000
+
+========================================================================
+Application Pages:
+ - http://127.0.0.1:5000/          : Prediction Dashboard & Auto-fill
+ - http://127.0.0.1:5000/rankings  : Player Fantasy Leaderboard & Search
+ - http://127.0.0.1:5000/model     : ML Model Analytics & Viva Metrics
+========================================================================

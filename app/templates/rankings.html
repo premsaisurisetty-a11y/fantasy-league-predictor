@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}FantasyScore AI - Player Leaderboard & Rankings{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Player Fantasy Leaderboard</h2>
+    <p>Rankings generated dynamically using the trained LightGBM Regressor on latest performance data</p>
+  </div>
+  <div>
+    <a href="/" class="btn-submit" style="text-decoration: none; padding: 10px 20px; font-size: 14px;">
+      <span>🎯</span> Open Score Predictor
+    </a>
+  </div>
+</div>
+
+<!-- Search & Filter Controls -->
+<div class="search-filter-bar">
+  <div class="search-input-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="rankingsSearch" class="form-control" placeholder="Search by player name or team (e.g. Virat, Bumrah, Mumbai, Chennai)...">
+  </div>
+
+  <div style="min-width: 200px;">
+    <select id="roleFilter" class="form-control">
+      <option value="">All Roles</option>
+      <option value="batsman">Batsmen</option>
+      <option value="bowler">Bowlers</option>
+      <option value="all-rounder">All-Rounders</option>
+      <option value="wicket-keeper">Wicket-Keepers</option>
+    </select>
+  </div>
+</div>
+
+<!-- Leaderboard Table Panel -->
+<div class="panel-card">
+  <div class="panel-header">
+    <div class="panel-title">
+      <span>🏆</span> Top Fantasy Picks (LightGBM Ranked)
+    </div>
+    <span class="panel-badge" id="rankingsCountBadge">Showing {{ leaderboard|length }} of {{ leaderboard|length }} Players</span>
+  </div>
+
+  <div class="table-responsive">
+    <table class="custom-table" id="rankingsTable">
+      <thead>
+        <tr>
+          <th data-sort="rank" style="width: 70px;">Rank ↕</th>
+          <th data-sort="player">Player & Team ↕</th>
+          <th data-sort="role">Role ↕</th>
+          <th data-sort="pred" style="text-align: right;">Predicted Points ↕</th>
+          <th data-sort="actual" style="text-align: right;">Actual Average ↕</th>
+          <th data-sort="matches" style="text-align: center;">Matches ↕</th>
+          <th style="text-align: center;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in leaderboard %}
+        <tr data-rank="{{ item.rank }}" 
+            data-player="{{ item.player_name }}" 
+            data-team="{{ item.team }}" 
+            data-role="{{ item.player_role }}" 
+            data-pred="{{ item.predicted_points }}" 
+            data-actual="{{ item.actual_average }}" 
+            data-matches="{{ item.matches }}">
+          
+          <td>
+            <span class="rank-badge {% if item.rank == 1 %}rank-1{% elif item.rank == 2 %}rank-2{% elif item.rank == 3 %}rank-3{% else %}rank-other{% endif %}">
+              {{ item.rank }}
+            </span>
+          </td>
+
+          <td>
+            <div class="player-cell">
+              <div class="player-avatar-wrapper">
+                <img src="{{ item.image_url }}" 
+                     alt="{{ item.player_name }}" 
+                     class="player-avatar-img" 
+                     loading="lazy" 
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="player-avatar-fallback" style="display: none;">
+                  {{ item.initials or item.player_name[:2]|upper }}
+                </div>
+              </div>
+              <div class="player-details">
+                <h5>{{ item.player_name }} <span class="player-id-tag">#{{ item.player_id }}</span></h5>
+                <span>{{ item.team }}</span>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <span class="role-pill {% if 'batsman' in item.player_role|lower %}role-batsman{% elif 'bowler' in item.player_role|lower %}role-bowler{% elif 'all' in item.player_role|lower %}role-allrounder{% else %}role-keeper{% endif %}">
+              {{ item.player_role }}
+            </span>
+          </td>
+
+          <td style="text-align: right;">
+            <span class="score-badge">{{ "%.2f"|format(item.predicted_points) }}</span>
+          </td>
+
+          <td style="text-align: right; color: var(--text-secondary); font-family: var(--font-mono);">
+            {{ "%.2f"|format(item.actual_average) }}
+          </td>
+
+          <td style="text-align: center; color: var(--text-muted); font-family: var(--font-mono);">
+            {{ item.matches }}
+          </td>
+
+          <td style="text-align: center;">
+            <a href="/?player={{ item.player_name|urlencode }}" class="btn-secondary" style="padding: 5px 12px; font-size: 12px;">
+              Predict ➜
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

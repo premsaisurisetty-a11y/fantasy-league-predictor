@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}FantasyScore AI - Fantasy League Score Prediction{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-wrapper">
+      <a href="/" class="brand-logo">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-text">
+          <h1>FantasyScore AI</h1>
+          <span>LightGBM ML Pipeline</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li class="nav-item {% if active_page == 'predict' %}active{% endif %}">
+          <a href="/">
+            <span>🎯</span> Predictor
+          </a>
+        </li>
+        <li class="nav-item {% if active_page == 'eda' %}active{% endif %}">
+          <a href="/eda">
+            <span>📊</span> EDA & Reports
+          </a>
+        </li>
+        <li class="nav-item {% if active_page == 'rankings' %}active{% endif %}">
+          <a href="/rankings">
+            <span>🏆</span> Leaderboard
+          </a>
+        </li>
+        <li class="nav-item {% if active_page == 'optimizer' %}active{% endif %}">
+          <a href="/squad-optimizer">
+            <span>⚔️</span> Squad Optimizer
+          </a>
+        </li>
+        <li class="nav-item {% if active_page == 'model' %}active{% endif %}">
+          <a href="/model">
+            <span>⚙️</span> Model Architecture
+          </a>
+        </li>
+      </ul>
+
+      <div class="nav-actions-group">
+        <a href="/download/eda-report-pdf" class="btn btn-sm btn-accent nav-download-btn" title="Download Complete PDF EDA Report with All Charts" download="Fantasy_Score_Prediction_EDA_Report.pdf">
+          <span>📕</span> EDA Report (PDF)
+        </a>
+        <div class="viva-badge live-engine-badge">
+          <span class="status-dot live-pulse"></span>
+          <span id="liveStatusText">Live Engine</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Body Content -->
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div>
+        <strong>FantasyScore AI</strong> &bull; Machine Learning Mini Project
+        <div class="viva-note">Fantasy League Score Prediction Using LightGBM Gradient-Boosted Trees</div>
+      </div>
+      <div>
+        <span style="color: var(--accent-cyan);">Dataset: 2,741 Records</span> | 
+        <span style="color: var(--accent-emerald);">Model: LightGBM Regressor</span> | 
+        <span>Python & Flask</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,7 @@
+Model,MAE,RMSE,R2
+FantasyScore Ensemble (Proposed),7.804,9.793,0.7035
+Ridge Regression,7.829,9.857,0.6997
+Linear Regression (Baseline),7.859,9.876,0.6985
+Tuned LightGBM Regressor,8.026,10.008,0.6904
+Random Forest Regressor,8.678,10.808,0.6389
+Decision Tree Regressor,9.805,12.36,0.5278

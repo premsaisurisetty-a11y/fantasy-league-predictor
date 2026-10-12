@@ -1,0 +1,639 @@
+{% extends "base.html" %}
+
+{% block title %}FantasyScore AI - Real-Time Fantasy Predictor & Match Simulator{% endblock %}
+
+{% block content %}
+<!-- Page Header with Live Engine Indicator -->
+<div class="page-header">
+  <div>
+    <div class="live-pill-header">
+      <span class="status-dot live-pulse"></span>
+      <span>REAL-TIME INFERENCE ENGINE ACTIVE</span>
+      <span class="latency-chip" id="headerLatencyChip">⚡ Latency < 5ms</span>
+    </div>
+    <h2>FantasyScore AI &bull; Real-Time Predictor</h2>
+    <p>Real-Time Fantasy Points Estimation & Live Match In-Play Simulator powered by LightGBM</p>
+  </div>
+  <div class="header-actions">
+    <a href="/rankings" class="btn-secondary">
+      <span>🏆</span> Top 20 Leaderboard
+    </a>
+  </div>
+</div>
+
+<!-- Dataset Summary Cards -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon">📁</div>
+    <div class="stat-info">
+      <div class="stat-val">{{ stats.total_records }}</div>
+      <div class="stat-label">Historical Records</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">👥</div>
+    <div class="stat-info">
+      <div class="stat-val">{{ stats.total_players }}</div>
+      <div class="stat-label">IPL Players</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">🏟️</div>
+    <div class="stat-info">
+      <div class="stat-val">{{ stats.total_matches }}</div>
+      <div class="stat-label">IPL Matches</div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">⚡</div>
+    <div class="stat-info">
+      <div class="stat-val" id="topAvgFantasyVal">{{ stats.avg_fantasy_points }}</div>
+      <div class="stat-label">Avg Fantasy Pts</div>
+    </div>
+  </div>
+</div>
+
+<!-- Mode Navigation Tabs -->
+<div class="mode-tabs-container">
+  <button type="button" class="mode-tab active" id="tabRealtimeMode" data-target="realtime-mode-view">
+    <span>⚡</span> Live Reactive Predictor
+  </button>
+  <button type="button" class="mode-tab" id="tabSimulatorMode" data-target="simulator-mode-view">
+    <span>🏏</span> In-Play Match Simulator (Live Ticker)
+  </button>
+  <button type="button" class="mode-tab" id="tabScenariosMode" data-target="scenarios-mode-view">
+    <span>🎯</span> 1-Click "What-If" Scenarios
+  </button>
+</div>
+
+<!-- Main Prediction Dashboard Layout -->
+<div class="dashboard-grid">
+  
+  <!-- Left Column: Controls & Simulation Views -->
+  <div class="left-column-wrapper">
+    
+    <!-- Smart Auto-Fill & Player Search (Always visible for quick context) -->
+    <div class="player-select-box">
+      <div class="player-select-header">
+        <span>⚡ Smart Auto-Populate Player Data</span>
+        <small>Search or select any of the 163 players to auto-fill latest baseline statistics</small>
+      </div>
+
+      <!-- Live Player Search Input -->
+      <div class="search-autocomplete-wrapper">
+        <div class="input-wrapper">
+          <span class="search-prefix-icon">🔍</span>
+          <input type="text" id="playerSearchInput" class="form-control search-player-input" placeholder="Type player name (e.g. Virat Kohli, Bumrah, Gill, Rashid, Rohit)..." autocomplete="off">
+          <button type="button" id="clearPlayerSearchBtn" class="clear-search-btn" style="display: none;">&times;</button>
+        </div>
+        <div id="playerSearchResults" class="player-search-dropdown" style="display: none;"></div>
+      </div>
+
+      <!-- Quick Pick Star Chips -->
+      <div class="quick-picks-container">
+        <span class="quick-pick-label">Quick Select:</span>
+        <div class="quick-chips">
+          <button type="button" class="quick-chip" data-player="Virat Kohli">Virat Kohli</button>
+          <button type="button" class="quick-chip" data-player="Jasprit Bumrah">Jasprit Bumrah</button>
+          <button type="button" class="quick-chip" data-player="Shubman Gill">Shubman Gill</button>
+          <button type="button" class="quick-chip" data-player="Rashid Khan">Rashid Khan</button>
+          <button type="button" class="quick-chip" data-player="Sanju Samson">Sanju Samson</button>
+          <button type="button" class="quick-chip" data-player="Rohit Sharma">Rohit Sharma</button>
+        </div>
+      </div>
+
+      <!-- Standard Dropdown Selector -->
+      <div class="dropdown-divider-row">
+        <span>or select from full player roster:</span>
+      </div>
+      <div class="input-wrapper">
+        <select id="playerSelect" class="form-control">
+          <option value="">-- Choose a Player from Dropdown --</option>
+          {% for p in players %}
+          <option value="{{ p }}" {% if default_player == p %}selected{% endif %}>{{ p }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div id="autoFillBanner" class="auto-fill-banner" style="display: none;"></div>
+    </div>
+
+    <!-- VIEW 1: LIVE REACTIVE PREDICTOR (Default Tab) -->
+    <div id="realtime-mode-view" class="tab-view-content active">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>⚙️</span> Interactive Real-Time Parameters
+          </div>
+          <span class="panel-badge live-glow-badge">🔴 Instant Live Sync</span>
+        </div>
+
+        <form id="predictionForm" method="POST" action="/" onsubmit="return false;">
+          
+          <!-- Section 1: Match & Role Context -->
+          <div class="form-section">
+            <div class="section-subtitle">
+              <span>🏏</span> 1. Match & Role Context
+            </div>
+            <div class="fields-grid">
+              <div class="form-group">
+                <label>Player Name <span class="help-tag">Identifier</span></label>
+                <input type="text" name="player_name" id="input_player_name" class="form-control" value="{{ form_values.player_name or 'Virat Kohli' }}" placeholder="e.g. Virat Kohli">
+              </div>
+
+              <div class="form-group">
+                <label>Team <span class="help-tag">Categorical</span></label>
+                <select name="team" id="input_team" class="form-control">
+                  {% for t in teams %}
+                  <option value="{{ t }}" {% if form_values.team == t %}selected{% endif %}>{{ t }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Opponent Team <span class="help-tag">Categorical</span></label>
+                <select name="opponent_team" id="input_opponent_team" class="form-control">
+                  {% for t in opponent_teams %}
+                  <option value="{{ t }}" {% if form_values.opponent_team == t %}selected{% endif %}>{{ t }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Player Role <span class="help-tag">Categorical</span></label>
+                <select name="player_role" id="input_player_role" class="form-control">
+                  {% for r in roles %}
+                  <option value="{{ r }}" {% if form_values.player_role == r %}selected{% endif %}>{{ r }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Home / Away <span class="help-tag">Categorical</span></label>
+                <select name="home_away" id="input_home_away" class="form-control">
+                  {% for ha in home_away_options %}
+                  <option value="{{ ha }}" {% if form_values.home_away == ha %}selected{% endif %}>{{ ha }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Batting Performance with Dual Sliders -->
+          <div class="form-section">
+            <div class="section-subtitle">
+              <span>🏏</span> 2. Batting Performance Metrics
+              <small class="section-hint">Drag sliders or edit numbers for instant live prediction</small>
+            </div>
+            <div class="fields-grid">
+              
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Batting Runs</label>
+                  <span class="live-val-badge" id="val_batting_runs">{{ form_values.batting_runs or 0 }}</span>
+                </div>
+                <input type="number" step="any" name="batting_runs" id="input_batting_runs" class="form-control realtime-input" value="{{ form_values.batting_runs or 0 }}">
+                <input type="range" class="realtime-range" id="range_batting_runs" min="0" max="150" step="1" value="{{ form_values.batting_runs or 0 }}">
+              </div>
+
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Strike Rate <span class="help-tag">R/100b</span></label>
+                  <span class="live-val-badge" id="val_batting_strike_rate">{{ form_values.batting_strike_rate or 120 }}</span>
+                </div>
+                <input type="number" step="any" name="batting_strike_rate" id="input_batting_strike_rate" class="form-control realtime-input" value="{{ form_values.batting_strike_rate or 120 }}">
+                <input type="range" class="realtime-range" id="range_batting_strike_rate" min="0" max="300" step="1" value="{{ form_values.batting_strike_rate or 120 }}">
+              </div>
+
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Batting Average</label>
+                  <span class="live-val-badge" id="val_batting_average">{{ form_values.batting_average or 30 }}</span>
+                </div>
+                <input type="number" step="any" name="batting_average" id="input_batting_average" class="form-control realtime-input" value="{{ form_values.batting_average or 30 }}">
+                <input type="range" class="realtime-range" id="range_batting_average" min="0" max="90" step="0.5" value="{{ form_values.batting_average or 30 }}">
+              </div>
+
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Boundaries <span class="help-tag">4s + 6s</span></label>
+                  <span class="live-val-badge" id="val_boundaries">{{ form_values.boundaries or 0 }}</span>
+                </div>
+                <input type="number" step="any" name="boundaries" id="input_boundaries" class="form-control realtime-input" value="{{ form_values.boundaries or 0 }}">
+                <input type="range" class="realtime-range" id="range_boundaries" min="0" max="25" step="1" value="{{ form_values.boundaries or 0 }}">
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section 3: Bowling Performance with Dual Sliders -->
+          <div class="form-section">
+            <div class="section-subtitle">
+              <span>🎯</span> 3. Bowling Performance Metrics
+            </div>
+            <div class="fields-grid">
+              
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Wickets</label>
+                  <span class="live-val-badge" id="val_bowling_wickets">{{ form_values.bowling_wickets or 0 }}</span>
+                </div>
+                <input type="number" step="any" name="bowling_wickets" id="input_bowling_wickets" class="form-control realtime-input" value="{{ form_values.bowling_wickets or 0 }}">
+                <input type="range" class="realtime-range" id="range_bowling_wickets" min="0" max="7" step="1" value="{{ form_values.bowling_wickets or 0 }}">
+              </div>
+
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Economy <span class="help-tag">R/Over</span></label>
+                  <span class="live-val-badge" id="val_bowling_economy">{{ form_values.bowling_economy or 8 }}</span>
+                </div>
+                <input type="number" step="any" name="bowling_economy" id="input_bowling_economy" class="form-control realtime-input" value="{{ form_values.bowling_economy or 8 }}">
+                <input type="range" class="realtime-range" id="range_bowling_economy" min="0" max="18" step="0.1" value="{{ form_values.bowling_economy or 8 }}">
+              </div>
+
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Bowling Average</label>
+                  <span class="live-val-badge" id="val_bowling_average">{{ form_values.bowling_average or 25 }}</span>
+                </div>
+                <input type="number" step="any" name="bowling_average" id="input_bowling_average" class="form-control realtime-input" value="{{ form_values.bowling_average or 25 }}">
+                <input type="range" class="realtime-range" id="range_bowling_average" min="0" max="60" step="0.5" value="{{ form_values.bowling_average or 25 }}">
+              </div>
+
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Overs Bowled</label>
+                  <span class="live-val-badge" id="val_overs_bowled">{{ form_values.overs_bowled or 0 }}</span>
+                </div>
+                <input type="number" step="any" name="overs_bowled" id="input_overs_bowled" class="form-control realtime-input" value="{{ form_values.overs_bowled or 0 }}">
+                <input type="range" class="realtime-range" id="range_overs_bowled" min="0" max="4" step="0.1" value="{{ form_values.overs_bowled or 0 }}">
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section 4: Form & Match Dynamics -->
+          <div class="form-section">
+            <div class="section-subtitle">
+              <span>🔥</span> 4. Form & Match Dynamics
+            </div>
+            <div class="fields-grid">
+              
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Recent Pts <span class="help-tag">Last Match</span></label>
+                  <span class="live-val-badge" id="val_recent_fantasy_points">{{ form_values.recent_fantasy_points or 45 }}</span>
+                </div>
+                <input type="number" step="any" name="recent_fantasy_points" id="input_recent_fantasy_points" class="form-control realtime-input" value="{{ form_values.recent_fantasy_points or 45 }}">
+                <input type="range" class="realtime-range" id="range_recent_fantasy_points" min="0" max="180" step="1" value="{{ form_values.recent_fantasy_points or 45 }}">
+              </div>
+
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Recent Avg Pts <span class="help-tag">5 Matches</span></label>
+                  <span class="live-val-badge" id="val_recent_average_points">{{ form_values.recent_average_points or 40 }}</span>
+                </div>
+                <input type="number" step="any" name="recent_average_points" id="input_recent_average_points" class="form-control realtime-input" value="{{ form_values.recent_average_points or 40 }}">
+                <input type="range" class="realtime-range" id="range_recent_average_points" min="0" max="140" step="0.5" value="{{ form_values.recent_average_points or 40 }}">
+              </div>
+
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Player Form <span class="help-tag">0 - 100</span></label>
+                  <span class="live-val-badge" id="val_player_form">{{ form_values.player_form or 70 }}</span>
+                </div>
+                <input type="number" step="any" name="player_form" id="input_player_form" class="form-control realtime-input" value="{{ form_values.player_form or 70 }}">
+                <input type="range" class="realtime-range" id="range_player_form" min="0" max="100" step="0.5" value="{{ form_values.player_form or 70 }}">
+              </div>
+
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Playing Time %</label>
+                  <span class="live-val-badge" id="val_playing_time_percentage">{{ form_values.playing_time_percentage or 100 }}%</span>
+                </div>
+                <input type="number" step="any" name="playing_time_percentage" id="input_playing_time_percentage" class="form-control realtime-input" value="{{ form_values.playing_time_percentage or 100 }}">
+                <input type="range" class="realtime-range" id="range_playing_time_percentage" min="0" max="100" step="5" value="{{ form_values.playing_time_percentage or 100 }}">
+              </div>
+
+              <div class="form-group slider-group">
+                <div class="group-header">
+                  <label>Opponent Strength <span class="help-tag">1-10</span></label>
+                  <span class="live-val-badge" id="val_opponent_strength">{{ form_values.opponent_strength or 7.0 }}</span>
+                </div>
+                <input type="number" step="any" name="opponent_strength" id="input_opponent_strength" class="form-control realtime-input" value="{{ form_values.opponent_strength or 7.0 }}">
+                <input type="range" class="realtime-range" id="range_opponent_strength" min="1" max="10" step="0.1" value="{{ form_values.opponent_strength or 7.0 }}">
+              </div>
+
+            </div>
+          </div>
+
+          <div class="realtime-footer-bar">
+            <button type="button" id="resetPlayerStatsBtn" class="btn-secondary">
+              <span>🔄</span> Reset to Baseline Stats
+            </button>
+            <button type="button" id="predictBtn" class="btn-submit">
+              <span>⚡ Recalculate Now</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- VIEW 2: IN-PLAY LIVE MATCH SIMULATOR -->
+    <div id="simulator-mode-view" class="tab-view-content">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>🏏</span> In-Play Live Match Ticker & Simulator
+          </div>
+          <span class="panel-badge live-pulse-badge">🔴 Simulation Engine</span>
+        </div>
+
+        <div class="simulator-controls-bar">
+          <div class="sim-scenario-selector">
+            <label>Choose Simulation Scenario:</label>
+            <select id="simScenarioSelect" class="form-control">
+              <option value="chase_top_order">Top Order Anchor Inning (Overs 1-18)</option>
+              <option value="death_overs">Death Overs Blitz Finisher (Overs 15-20)</option>
+              <option value="pace_spell">4-Over Strike Bowler Spell (Overs 2, 4, 17, 19)</option>
+              <option value="all_round">All-Round Heroics (Batting 35* + 2 Wickets)</option>
+            </select>
+          </div>
+
+          <div class="sim-actions">
+            <button type="button" id="simPlayBtn" class="sim-btn sim-btn-play">
+              <span>▶</span> Auto Simulate
+            </button>
+            <button type="button" id="simStepBtn" class="sim-btn sim-btn-step">
+              <span>⏭</span> Next Over (+1)
+            </button>
+            <button type="button" id="simResetBtn" class="sim-btn sim-btn-reset">
+              <span>🔄</span> Reset Match
+            </button>
+          </div>
+        </div>
+
+        <!-- Live In-Play Match Scoreboard -->
+        <div class="live-scoreboard">
+          <div class="scoreboard-main">
+            <div class="scoreboard-team">
+              <div class="player-avatar-wrapper scoreboard-avatar-wrapper">
+                <img id="simPlayerImage" 
+                     src="{{ player_profile.image_url if player_profile.image_url is defined else 'https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.png' }}" 
+                     alt="{{ default_player }}" 
+                     class="player-avatar-img scoreboard-avatar-img" 
+                     loading="lazy" 
+                     onerror="this.style.display='none'; document.getElementById('simPlayerAvatar').style.display='flex';">
+                <div class="scoreboard-avatar player-avatar-fallback" id="simPlayerAvatar" style="display: none;">
+                  {{ player_profile.initials if player_profile.initials is defined else 'VK' }}
+                </div>
+              </div>
+              <div>
+                <div class="scoreboard-player-name">
+                  <span id="simPlayerName">{{ default_player }}</span>
+                  <span class="player-id-tag" id="simPlayerId">#{{ player_profile.player_id if player_profile.player_id is defined else '253802' }}</span>
+                </div>
+                <div class="scoreboard-match-meta" id="simMatchStatus">Live: Over 0.0 of 20 &bull; Innings 2</div>
+              </div>
+            </div>
+            
+            <div class="scoreboard-stats-strip">
+              <div class="score-stat-box">
+                <span class="label">Runs (Balls)</span>
+                <span class="val" id="simLiveRuns">0 (0)</span>
+              </div>
+              <div class="score-stat-box">
+                <span class="label">Strike Rate</span>
+                <span class="val" id="simLiveSR">0.0</span>
+              </div>
+              <div class="score-stat-box">
+                <span class="label">Fours / Sixes</span>
+                <span class="val" id="simLiveBoundaries">0 / 0</span>
+              </div>
+              <div class="score-stat-box">
+                <span class="label">Wickets / Overs</span>
+                <span class="val" id="simLiveBowling">0 / 0.0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Real-Time Score Trajectory Canvas Chart -->
+          <div class="chart-container-box">
+            <div class="chart-header">
+              <span>📈 Real-Time Projected Fantasy Points Trajectory</span>
+              <span class="chart-current-tag" id="simCurrentScoreBadge">Current: 0.0 pts</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="simTrajectoryCanvas" width="700" height="200"></canvas>
+            </div>
+          </div>
+
+          <!-- Live Commentary Feed -->
+          <div class="commentary-box">
+            <div class="commentary-header">
+              <span>🎙️ Live Ball-by-Ball Match Ticker & Fantasy Impact Feed</span>
+              <span class="badge-live-tag">LIVE FEED</span>
+            </div>
+            <div class="commentary-feed" id="simCommentaryFeed">
+              <div class="commentary-item start">
+                <span class="com-over">0.0</span>
+                <span class="com-text">Match ready. Click <strong>"▶ Auto Simulate"</strong> or <strong>"⏭ Next Over"</strong> to stream real-time match events and watch the LightGBM fantasy prediction adapt live!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 3: 1-CLICK WHAT-IF SCENARIOS -->
+    <div id="scenarios-mode-view" class="tab-view-content">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>🎯</span> Instant "What-If" Match Scenarios
+          </div>
+          <span class="panel-badge">1-Click Live Test</span>
+        </div>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 18px;">
+          Click any scenario below to instantly load match conditions into the model and calculate the projected fantasy points in real-time:
+        </p>
+
+        <div class="scenarios-grid">
+          
+          <div class="scenario-card" data-scenario="half_century">
+            <div class="sc-icon">💥</div>
+            <div class="sc-content">
+              <h4>Explosive Half-Century</h4>
+              <p>54 runs off 30 balls, 5x4, 3x6 (SR 180.0), Form 88</p>
+              <span class="sc-tag">Batting Powerhouse</span>
+            </div>
+            <button type="button" class="btn-apply-sc">Apply Scenario ⚡</button>
+          </div>
+
+          <div class="scenario-card" data-scenario="captain_knock">
+            <div class="sc-icon">👑</div>
+            <div class="sc-content">
+              <h4>Captain's Match Winner</h4>
+              <p>82 runs off 50 balls, 8x4, 2x6, Form 95, Playing Time 100%</p>
+              <span class="sc-tag">Mega 80+ Anchor</span>
+            </div>
+            <button type="button" class="btn-apply-sc">Apply Scenario ⚡</button>
+          </div>
+
+          <div class="scenario-card" data-scenario="death_finisher">
+            <div class="sc-icon">⚡</div>
+            <div class="sc-content">
+              <h4>Death-Overs Blitz</h4>
+              <p>38 runs in 14 balls, 2x4, 4x6 (SR 271.4), High Impact</p>
+              <span class="sc-tag">Finisher Role</span>
+            </div>
+            <button type="button" class="btn-apply-sc">Apply Scenario ⚡</button>
+          </div>
+
+          <div class="scenario-card" data-scenario="three_fer">
+            <div class="sc-icon">🎯</div>
+            <div class="sc-content">
+              <h4>Deadly 3-Wicket Spell</h4>
+              <p>3 wickets, 4.0 overs, 21 runs conceded (Economy 5.25)</p>
+              <span class="sc-tag">Pace / Spin Ace</span>
+            </div>
+            <button type="button" class="btn-apply-sc">Apply Scenario ⚡</button>
+          </div>
+
+          <div class="scenario-card" data-scenario="all_rounder">
+            <div class="sc-icon">🔥</div>
+            <div class="sc-content">
+              <h4>Dream All-Round Match</h4>
+              <p>42 runs off 24 balls + 2 wickets in 4 overs (Econ 6.8)</p>
+              <span class="sc-tag">Highest Fantasy ROI</span>
+            </div>
+            <button type="button" class="btn-apply-sc">Apply Scenario ⚡</button>
+          </div>
+
+          <div class="scenario-card" data-scenario="early_dismissal">
+            <div class="sc-icon">⚠️</div>
+            <div class="sc-content">
+              <h4>Early Dismissal / Expensive Day</h4>
+              <p>2 runs off 4 balls, 0 wickets, Economy 12.0</p>
+              <span class="sc-tag">Low Scoring Game</span>
+            </div>
+            <button type="button" class="btn-apply-sc">Apply Scenario ⚡</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Right Column: Real-Time Live Prediction Hub & Explainability -->
+  <div class="right-column-wrapper">
+    
+    <!-- Real-Time Prediction Output Hub -->
+    <div id="predictionResultBox" class="prediction-box realtime-hub-card">
+      <div class="hub-top-header">
+        <div class="live-tag-chip">
+          <span class="status-dot live-pulse"></span>
+          <span>LIVE PREDICTION OUTPUT</span>
+        </div>
+        <div class="latency-indicator" id="predLatencyDisplay">Inference: 3.4ms</div>
+      </div>
+
+      <!-- Player Profile Card with External Real Image -->
+      <div class="hub-player-profile-card">
+        <div class="player-avatar-wrapper hub-player-avatar-wrapper">
+          <img id="hubPlayerImage" 
+               src="{{ player_profile.image_url if player_profile.image_url is defined else 'https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.png' }}" 
+               alt="{{ default_player }}" 
+               class="player-avatar-img hub-player-avatar-img" 
+               loading="lazy" 
+               onerror="this.style.display='none'; document.getElementById('hubPlayerFallback').style.display='flex';">
+          <div class="player-avatar-fallback hub-player-avatar-fallback" id="hubPlayerFallback" style="display: none;">
+            {{ player_profile.initials if player_profile.initials is defined else 'VK' }}
+          </div>
+        </div>
+        <div class="hub-player-meta">
+          <h3 id="hubPlayerName">{{ default_player }}</h3>
+          <div class="hub-player-tags">
+            <span class="player-id-tag" id="hubPlayerId">#{{ player_profile.player_id if player_profile.player_id is defined else '253802' }}</span>
+            <span class="hub-tag-team" id="hubPlayerTeam">{{ player_profile.team if player_profile.team is defined else 'Royal Challengers Bangalore' }}</span>
+            <span class="hub-tag-role" id="hubPlayerRole">{{ player_profile.player_role if player_profile.player_role is defined else 'Batsman' }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Big Center Score Display -->
+      <div class="score-display-wrapper">
+        <div class="score-display" id="predictedScoreDisplay">
+          {{ "%.2f"|format(prediction) if prediction is not none else "00.00" }}
+        </div>
+        <div class="score-unit">Predicted Fantasy Points</div>
+        <div class="confidence-badge" id="confidenceRangeDisplay">
+          Confidence Interval: <strong>{{ "%.1f"|format(analytics.confidence_low) if analytics.confidence_low is defined else "42.0" }} - {{ "%.1f"|format(analytics.confidence_high) if analytics.confidence_high is defined else "54.4" }} pts</strong>
+        </div>
+      </div>
+
+      <!-- Live Dynamic Performance Tier -->
+      <div id="tierIndicator" class="tier-indicator {{ analytics.tier_class if analytics.tier_class is defined else 'tier-high' }}">
+        {{ analytics.tier_title if analytics.tier_title is defined else "★ Elite Captain Pick (Tier 1)" }}
+      </div>
+
+      <!-- Dream11 / Fantasy XI Selection Probability Meter -->
+      <div class="selection-prob-card">
+        <div class="prob-header">
+          <span>🎯 Top Fantasy XI Pick Probability</span>
+          <strong id="selectionProbDisplay">{{ analytics.selection_prob if analytics.selection_prob is defined else "88.5" }}%</strong>
+        </div>
+        <div class="prob-bar-track">
+          <div class="prob-bar-fill" id="selectionProbBar" style="width: {{ analytics.selection_prob if analytics.selection_prob is defined else 88.5 }}%;"></div>
+        </div>
+      </div>
+
+      <!-- Explainability Section with Dynamic Bars -->
+      <div class="explain-section">
+        <div class="explain-header">
+          <h4><span>🔍</span> Real-Time Feature Attribution</h4>
+          <span class="lightgbm-tag">LightGBM Trees</span>
+        </div>
+        <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+          The gradient-boosted ensemble dynamically recalculates these weights on every slider movement:
+        </p>
+
+        <div id="explainFactorsContainer">
+          {% for item in breakdown %}
+          <div class="factor-item">
+            <div class="factor-meta">
+              <span class="f-name">{{ item.name }}</span>
+              <span class="f-val">{{ item.value }} ({{ item.importance }}% impact)</span>
+            </div>
+            <div class="factor-bar-bg">
+              <div class="factor-bar-fill" style="width: {{ item.importance }}%;"></div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Live Viva Reference Card -->
+    <div class="panel-card" style="margin-top: 24px;">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>💡</span> Real-Time Architecture Highlights
+        </div>
+      </div>
+      <ul class="viva-bullets">
+        <li><strong>Sub-5ms Inference:</strong> In-memory LightGBM tree evaluation optimized with pandas categorical encoding.</li>
+        <li><strong>Reactive Client Architecture:</strong> Dual synchronized range sliders with debounced real-time asynchronous API polling.</li>
+        <li><strong>In-Play Trajectory Chart:</strong> Canvas-based event simulation tracking point accumulation across all match phases.</li>
+        <li><strong>Probabilistic Calibration:</strong> Sigmoidal transform mapping point estimates to fantasy team selection probability.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

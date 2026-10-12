@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block title %}FantasyScore AI - Model Analytics & Performance{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Model Analytics & Evaluation</h2>
+    <p>Comprehensive machine learning pipeline metrics, baseline benchmarks, and feature importance</p>
+  </div>
+  <div>
+    <span class="panel-badge" style="font-size: 13px; padding: 6px 14px;">LightGBM v4 &bull; Chronological Split</span>
+  </div>
+</div>
+
+<!-- End-to-End Pipeline Flow Diagram -->
+<div class="panel-card">
+  <div class="panel-header">
+    <div class="panel-title">
+      <span>🔄</span> End-to-End ML Pipeline Architecture
+    </div>
+  </div>
+
+  <div class="pipeline-flow">
+    <div class="pipeline-step">
+      <span class="step-num">STEP 01</span>
+      <div class="step-title">Historical Data</div>
+      <div class="step-sub">2,741 records (22 cols)</div>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="pipeline-step">
+      <span class="step-num">STEP 02</span>
+      <div class="step-title">Preprocessing</div>
+      <div class="step-sub">Train median imputation</div>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="pipeline-step">
+      <span class="step-num">STEP 03</span>
+      <div class="step-title">Chronological Split</div>
+      <div class="step-sub">80% Train / 20% Test</div>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="pipeline-step">
+      <span class="step-num">STEP 04</span>
+      <div class="step-title">LightGBM</div>
+      <div class="step-sub">Gradient-Boosted Trees</div>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="pipeline-step">
+      <span class="step-num">STEP 05</span>
+      <div class="step-title">Evaluation</div>
+      <div class="step-sub">MAE, RMSE, R² Metrics</div>
+    </div>
+    <div class="flow-arrow">➔</div>
+    <div class="pipeline-step">
+      <span class="step-num">STEP 06</span>
+      <div class="step-title">Web & Rankings</div>
+      <div class="step-sub">Flask Real-Time UI</div>
+    </div>
+  </div>
+</div>
+
+<!-- Key Performance Metrics Grid -->
+<div class="metrics-grid">
+  <div class="metric-box">
+    <div class="metric-title">Mean Absolute Error</div>
+    <div class="metric-num">{{ "%.2f"|format(metrics.mae) }}</div>
+    <div class="metric-desc">Average absolute point error</div>
+  </div>
+
+  <div class="metric-box">
+    <div class="metric-title">Root Mean Squared Error</div>
+    <div class="metric-num">{{ "%.2f"|format(metrics.rmse) }}</div>
+    <div class="metric-desc">Penalizes large variance errors</div>
+  </div>
+
+  <div class="metric-box">
+    <div class="metric-title">Coefficient of Determination (R²)</div>
+    <div class="metric-num">{{ "%.4f"|format(metrics.r2) }}</div>
+    <div class="metric-desc">Variance explained by model</div>
+  </div>
+
+  <div class="metric-box">
+    <div class="metric-title">Best Iteration</div>
+    <div class="metric-num">{{ metrics.best_iteration }}</div>
+    <div class="metric-desc">Early stopping optimal trees</div>
+  </div>
+</div>
+
+<!-- Two Column Layout: Model Specs & Baseline Comparison -->
+<div class="dashboard-grid">
+  <!-- Left: Model Specifications -->
+  <div class="panel-card">
+    <div class="panel-header">
+      <div class="panel-title">
+        <span>⚙️</span> Model Specifications & Hyperparameters
+      </div>
+    </div>
+
+    <table class="custom-table">
+      <tbody>
+        <tr>
+          <td style="color: var(--text-secondary); width: 40%;">Algorithm</td>
+          <td><strong>LightGBM Regressor (GBDT)</strong></td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-secondary);">Target Variable</td>
+          <td><code>fantasy_points</code> (Continuous numeric)</td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-secondary);">Objective Function</td>
+          <td><code>regression (L2 / MSE)</code></td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-secondary);">Learning Rate</td>
+          <td><code>0.03</code></td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-secondary);">Number of Leaves</td>
+          <td><code>31</code></td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-secondary);">Regularization</td>
+          <td><code>L1 (alpha=0.1), L2 (lambda=0.1)</code></td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-secondary);">Subsampling / Colsample</td>
+          <td><code>0.9 / 0.9</code></td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-secondary);">Categorical Handling</td>
+          <td>Native LightGBM categorical feature support</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Right: Baseline Model Comparison Table -->
+  <div class="panel-card">
+    <div class="panel-header">
+      <div class="panel-title">
+        <span>⚖️</span> Baseline Model Comparison
+      </div>
+      <span class="panel-badge">Test Set Benchmark</span>
+    </div>
+
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th style="text-align: right;">MAE</th>
+          <th style="text-align: right;">RMSE</th>
+          <th style="text-align: right;">R²</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in model_comparison %}
+        <tr {% if 'LightGBM' in m.Model %}style="background: rgba(6, 182, 212, 0.12); font-weight: bold;"{% endif %}>
+          <td>
+            {{ m.Model }}
+            {% if 'LightGBM' in m.Model %}
+            <span style="color: var(--accent-cyan); font-size: 11px;">(Selected)</span>
+            {% endif %}
+          </td>
+          <td style="text-align: right; font-family: var(--font-mono);">{{ m.MAE }}</td>
+          <td style="text-align: right; font-family: var(--font-mono);">{{ m.RMSE }}</td>
+          <td style="text-align: right; font-family: var(--font-mono); color: {% if 'LightGBM' in m.Model or m.R2|float > 0.65 %}#34d399{% else %}var(--text-secondary){% endif %};">
+            {{ m.R2 }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Feature Importance Table & Progress Bars -->
+<div class="panel-card">
+  <div class="panel-header">
+    <div class="panel-title">
+      <span>📊</span> Feature Importance Breakdown
+    </div>
+    <span class="panel-badge">Split Gain Distribution</span>
+  </div>
+
+  <div class="fields-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+    {% for feat in feature_importances %}
+    <div style="background: var(--bg-input); padding: 14px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+      <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
+        <strong style="color: var(--text-primary);">{{ feat.feature }}</strong>
+        <span style="font-family: var(--font-mono); color: var(--accent-cyan);">{{ feat.importance }} splits</span>
+      </div>
+      <div class="factor-bar-bg">
+        <div class="factor-bar-fill" style="width: {{ (feat.importance / max_importance * 100)|round }}%;"></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Generated Evaluation Visualizations -->
+<div class="panel-card">
+  <div class="panel-header">
+    <div class="panel-title">
+      <span>📈</span> Evaluation & Exploratory Data Analysis Charts
+    </div>
+  </div>
+
+  <div class="graphs-grid">
+    <div class="graph-card">
+      <h4><span>📊</span> Fantasy Points Distribution</h4>
+      <img src="/results/graphs/fantasy_points_distribution.png" alt="Fantasy Points Distribution">
+      <p style="font-size: 12px; color: var(--text-secondary);">
+        Shows the distribution of target fantasy points across all 2,741 match records.
+      </p>
+    </div>
+
+    <div class="graph-card">
+      <h4><span>🎯</span> Actual vs Predicted Scatter</h4>
+      <img src="/results/graphs/actual_vs_predicted.png" alt="Actual vs Predicted">
+      <p style="font-size: 12px; color: var(--text-secondary);">
+        LightGBM predictions plotted against actual fantasy points with the ideal $y=x$ reference line.
+      </p>
+    </div>
+
+    <div class="graph-card">
+      <h4><span>🏆</span> Top Feature Importances</h4>
+      <img src="/results/graphs/feature_importance.png" alt="Feature Importance">
+      <p style="font-size: 12px; color: var(--text-secondary);">
+        Demonstrates the highest-impact decision splits in the gradient-boosted decision trees.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

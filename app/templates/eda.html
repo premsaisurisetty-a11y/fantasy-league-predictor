@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block title %}Exploratory Data Analysis (EDA) & Reports - FantasyScore AI{% endblock %}
+
+{% block content %}
+<div class="eda-page-wrapper">
+
+  <!-- EDA Hero Header -->
+  <section class="page-header">
+    <div class="header-badge">
+      <span>📊</span> Phase 1 &bull; Exploratory Data Analysis & Statistical Profiling
+    </div>
+    <h2>Comprehensive Dataset EDA & Statistical Audit</h2>
+    <p class="subtitle">
+      Deep statistical exploration, data hygiene audit, feature correlation modeling, and distribution analyses across 2,741 player-match instances.
+    </p>
+
+    <!-- Prominent Download Action Bar -->
+    <div class="eda-download-bar">
+      <div class="download-bar-label">
+        <span class="pulse-icon">📥</span> <strong>Download Project EDA Reports & Artifacts:</strong>
+      </div>
+      <div class="download-actions-grid">
+        <a href="/download/eda-report-pdf" class="btn btn-primary download-btn pdf-btn-glow" download="Fantasy_Score_Prediction_EDA_Report.pdf">
+          <span class="btn-icon">📕</span> <strong>Download Complete EDA Report (PDF)</strong>
+        </a>
+        <a href="/download/eda-report" class="btn btn-accent download-btn" download="Fantasy_Score_Prediction_EDA_Report.md">
+          <span class="btn-icon">📄</span> Download Report (.md)
+        </a>
+        <a href="/download/eda-notebook" class="btn btn-secondary download-btn" download="EDA_Fantasy_League.ipynb">
+          <span class="btn-icon">📓</span> Jupyter Notebook (.ipynb)
+        </a>
+        <a href="/download/cleaned-dataset" class="btn btn-secondary download-btn" download="fantasy_league_cleaned.csv">
+          <span class="btn-icon">📑</span> Clean Dataset (.csv)
+        </a>
+        <a href="/download/eda-graphs-zip" class="btn btn-secondary download-btn" download="fantasy_score_eda_charts.zip">
+          <span class="btn-icon">📦</span> All Charts (.zip)
+        </a>
+        <button onclick="window.print()" class="btn btn-glass download-btn">
+          <span class="btn-icon">🖨️</span> Print View
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Top Level Dataset KPI Cards -->
+  <section class="stats-cards-grid">
+    <div class="stat-card">
+      <div class="stat-icon cyan">📊</div>
+      <div class="stat-content">
+        <div class="stat-label">Total Observations</div>
+        <div class="stat-value">{{ dataset_stats.total_records }}</div>
+        <div class="stat-sub">Match records analyzed</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon blue">🏏</div>
+      <div class="stat-content">
+        <div class="stat-label">Unique Players</div>
+        <div class="stat-value">{{ dataset_stats.total_players }}</div>
+        <div class="stat-sub">10 IPL Franchises</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon emerald">🏟️</div>
+      <div class="stat-content">
+        <div class="stat-label">Unique Fixtures</div>
+        <div class="stat-value">{{ dataset_stats.total_matches }}</div>
+        <div class="stat-sub">2026 Chronological Matches</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon amber">🎯</div>
+      <div class="stat-content">
+        <div class="stat-label">Mean Fantasy Output</div>
+        <div class="stat-value">{{ dataset_stats.avg_fantasy_points }} <small>pts</small></div>
+        <div class="stat-sub">Std Dev: 17.94 | Median: 34.10</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Hygiene & Quality Audit Banner -->
+  <section class="eda-card audit-card">
+    <div class="card-header-clean">
+      <div class="header-icon cyan">🛡️</div>
+      <div>
+        <h3>Data Hygiene & Quality Discoveries</h3>
+        <p>Pre-processing rules and data integrity checks applied to raw cricket dataset</p>
+      </div>
+    </div>
+    <div class="audit-grid">
+      <div class="audit-item">
+        <div class="audit-badge pass">✓ Standardized</div>
+        <h4>Categorical Casing & Padding</h4>
+        <p>Fixed uppercase role strings (<code>BATSMAN</code> &rarr; <code>Batsman</code>) and trailing team spaces (19 raw team variants collapsed to 10 true franchises).</p>
+      </div>
+      <div class="audit-item">
+        <div class="audit-badge pass">✓ Leakage-Free</div>
+        <h4>Median Imputation Pipeline</h4>
+        <p>11 numerical features with &lt;3% nulls imputed strictly using <strong>training partition medians</strong> to prevent future lookahead leakage.</p>
+      </div>
+      <div class="audit-item">
+        <div class="audit-badge pass">✓ Temporal Sort</div>
+        <h4>Chronological 80/20 Partition</h4>
+        <p>Ordered sequentially by <code>match_id</code> (5001–5130). Evaluated on 549 unseen future matches rather than random permutation.</p>
+      </div>
+      <div class="audit-item">
+        <div class="audit-badge pass">✓ Zero Duplicates</div>
+        <h4>Row Integrity Verified</h4>
+        <p>Audited 2,741 match rows with 0 duplicate records and 100% target variable completeness.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Two Column Layout: Correlation Ranking & Summary Statistics -->
+  <div class="eda-grid-split">
+    
+    <!-- Left Column: Feature Correlation with Target -->
+    <section class="eda-card">
+      <div class="card-header-clean">
+        <div class="header-icon emerald">📈</div>
+        <div>
+          <h3>Feature Correlation with Fantasy Points</h3>
+          <p>Pearson linear correlation ranking ($r$) against target variable</p>
+        </div>
+      </div>
+
+      <div class="correlation-list">
+        {% for item in corr_list %}
+        <div class="correlation-row">
+          <div class="corr-meta">
+            <span class="corr-name">{{ item.feature }}</span>
+            <span class="corr-score {% if item.is_positive %}positive{% else %}negative{% endif %}">
+              {{ item.correlation }}
+            </span>
+          </div>
+          <div class="corr-bar-bg">
+            <div class="corr-bar-fill {% if item.is_positive %}pos-fill{% else %}neg-fill{% endif %}" style="width: {{ item.abs_corr * 100 }}%;"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div style="margin-top: 1rem; text-align: right;">
+        <a href="/download/correlation-matrix" class="btn btn-secondary btn-sm" download="eda_correlation_matrix.csv">
+          <span>📥</span> Download Full Correlation Matrix (.csv)
+        </a>
+      </div>
+    </section>
+
+    <!-- Right Column: Key Statistical Findings & Insights -->
+    <section class="eda-card">
+      <div class="card-header-clean">
+        <div class="header-icon amber">💡</div>
+        <div>
+          <h3>Key EDA Findings & Modeling Takeaways</h3>
+          <p>Empirical evidence guiding LightGBM feature selection</p>
+        </div>
+      </div>
+
+      <div class="findings-timeline">
+        <div class="finding-block">
+          <div class="finding-num">01</div>
+          <div class="finding-text">
+            <strong>Form Autocorrelation Dominates:</strong>
+            <p><code>recent_average_points</code> ($r=0.63$) and <code>player_form</code> ($r=0.58$) are the highest predictors, proving that short-term form heavily drives next-match output.</p>
+          </div>
+        </div>
+
+        <div class="finding-block">
+          <div class="finding-num">02</div>
+          <div class="finding-text">
+            <strong>Wickets Yield Asymmetric Returns:</strong>
+            <p><code>bowling_wickets</code> ($r=0.50$) correlates twice as strongly as raw <code>batting_runs</code> ($r=0.27$) due to high discrete 25-point wicket rewards.</p>
+          </div>
+        </div>
+
+        <div class="finding-block">
+          <div class="finding-num">03</div>
+          <div class="finding-text">
+            <strong>All-Rounders Hold Highest Point Ceilings:</strong>
+            <p>All-Rounders produce an average of <strong>44.8 points</strong> (vs 28.9 for Bowlers) because they generate returns from both batting and bowling quotas.</p>
+          </div>
+        </div>
+
+        <div class="finding-block">
+          <div class="finding-num">04</div>
+          <div class="finding-text">
+            <strong>Target Positive Skewness ($\gamma_1 = +0.42$):</strong>
+            <p>The unimodal target distribution contains explosive match-winning scores ($>80$ pts). Gradient-boosted decision trees naturally handle these non-linear upper tails.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Descriptive Summary Statistics Table Section -->
+  {% if stats_list %}
+  <section class="eda-card full-width-card">
+    <div class="card-header-flex">
+      <div class="card-header-clean">
+        <div class="header-icon blue">📋</div>
+        <div>
+          <h3>Descriptive Statistics & Dispersion Profile</h3>
+          <p>Comprehensive 5-number summary, IQR, Skewness, and Kurtosis metrics</p>
+        </div>
+      </div>
+      <a href="/download/summary-statistics" class="btn btn-secondary btn-sm" download="eda_summary_statistics.csv">
+        <span>📥</span> Download Summary Stats (.csv)
+      </a>
+    </div>
+
+    <div class="table-responsive-wrapper">
+      <table class="eda-stats-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Count</th>
+            <th>Mean</th>
+            <th>Std</th>
+            <th>Median</th>
+            <th>Min</th>
+            <th>25%</th>
+            <th>75%</th>
+            <th>Max</th>
+            <th>IQR</th>
+            <th>Skewness</th>
+            <th>Kurtosis</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in stats_list %}
+          <tr>
+            <td class="feature-col"><strong>{{ row.get(row.keys()|first, '') }}</strong></td>
+            <td>{{ row.get('count', '') }}</td>
+            <td>{{ row.get('mean', '') }}</td>
+            <td>{{ row.get('std', '') }}</td>
+            <td><strong>{{ row.get('median', '') }}</strong></td>
+            <td>{{ row.get('min', '') }}</td>
+            <td>{{ row.get('25%', '') }}</td>
+            <td>{{ row.get('75%', '') }}</td>
+            <td>{{ row.get('max', '') }}</td>
+            <td>{{ row.get('IQR', '') }}</td>
+            <td class="{% if row.get('skewness', 0)|float > 0.5 %}skew-high{% endif %}">{{ row.get('skewness', '') }}</td>
+            <td>{{ row.get('kurtosis', '') }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- EDA High Resolution Visualizations Gallery -->
+  <section class="eda-card full-width-card">
+    <div class="card-header-flex">
+      <div class="card-header-clean">
+        <div class="header-icon purple">🖼️</div>
+        <div>
+          <h3>High-Resolution Statistical Visualizations (10 Publication Charts)</h3>
+          <p>Generated by <code>src/eda.py</code> using Seaborn & Matplotlib</p>
+        </div>
+      </div>
+      <a href="/download/eda-graphs-zip" class="btn btn-accent btn-sm" download="fantasy_score_eda_charts.zip">
+        <span>📦</span> Download All Charts (.zip)
+      </a>
+    </div>
+
+    <div class="eda-gallery-grid">
+      {% for img in eda_images %}
+      <div class="gallery-card">
+        <div class="gallery-img-container">
+          <img src="/results/eda_graphs/{{ img.file }}" alt="{{ img.title }}" loading="lazy" onclick="window.open(this.src, '_blank')">
+          <a href="/results/eda_graphs/{{ img.file }}" class="zoom-pill" target="_blank" download="{{ img.file }}">
+            <span>🔍</span> Full Size / Download
+          </a>
+        </div>
+        <div class="gallery-info">
+          <h4>{{ img.title }}</h4>
+          <p>{{ img.desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+{% endblock %}
