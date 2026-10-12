@@ -1,6 +1,19 @@
+
+# Flask web framework for building the prediction application's web interface.
 flask>=3.0.0
+
+# NumPy for numerical calculations and array operations.
+# Version must remain below 2.0.0 for compatibility.
 numpy>=1.24.0,<2.0.0
+
+# Pandas for loading, processing, and managing tabular datasets.
 pandas>=2.0.0
+
+# Scikit-learn for machine learning algorithms, preprocessing, and evaluation.
 scikit-learn>=1.3.0
+
+# LightGBM for gradient-boosted decision tree regression.
 lightgbm>=4.0.0
+
+# Joblib for saving and loading trained machine learning models.
 joblib>=1.3.0
