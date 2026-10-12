@@ -10,3 +10,5 @@ scratch_*.py
 test_*.py
 fetch_wikipedia_photos.py
 verified_wikipedia_images.json
+models/*.pkl
+data/

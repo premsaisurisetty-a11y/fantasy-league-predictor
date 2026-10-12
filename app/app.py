@@ -1,6 +1,10 @@
 import os
 import sys
-import joblib
+
+try:
+    import joblib
+except ImportError:
+    joblib = None
 import pandas as pd
 import numpy as np
 from flask import Flask, render_template, request, jsonify, send_from_directory
@@ -183,8 +187,6 @@ except Exception:
 # 3b. Optimal Fantasy XI Squad Optimizer (MILP / 0-1 Knapsack)
 # -----------------------------------------------------------------------------
 def optimize_fantasy_squad(player_pool=None, max_budget=100.0, team1=None, team2=None):
-    from scipy.optimize import milp, LinearConstraint, Bounds
-    
     if player_pool is None:
         player_pool = cached_leaderboard
 
