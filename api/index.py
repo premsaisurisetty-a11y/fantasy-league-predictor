@@ -15,10 +15,10 @@ except Exception as e:
     print(f"[Vercel Init Error] {err_traceback}", file=sys.stderr)
     
     from flask import Flask, Response
-    fallback_app = Flask(__name__)
+    app = Flask(__name__)
     
-    @fallback_app.route("/", defaults={"path": ""})
-    @fallback_app.route("/<path:path>")
+    @app.route("/", defaults={"path": ""})
+    @app.route("/<path:path>")
     def catch_all(path):
         content = f"""
         <!DOCTYPE html>
@@ -26,14 +26,13 @@ except Exception as e:
         <head><title>Startup Error - FantasyScore AI</title></head>
         <body style="background:#0f172a; color:#f8fafc; font-family:monospace; padding:24px;">
             <h2 style="color:#ef4444;">Serverless Initialization Exception</h2>
-            <p>The Python application failed to initialize. Traceback:</p>
-            <pre style="background:#1e293b; color:#38bdf8; padding:16px; border-radius:8px; overflow:auto;">{err_traceback}</pre>
+            <p>The Python application encountered an error during startup. Traceback:</p>
+            <pre style="background:#1e293b; color:#38bdf8; padding:16px; border-radius:8px; overflow:auto; white-space:pre-wrap;">{err_traceback}</pre>
             <hr style="border-color:#334155; margin:20px 0;">
             <p style="color:#94a3b8;">BASE_DIR: {BASE_DIR}</p>
-            <p style="color:#94a3b8;">Files in BASE_DIR: {os.listdir(BASE_DIR) if os.path.exists(BASE_DIR) else 'Not Found'}</p>
         </body>
         </html>
         """
         return Response(content, status=500, mimetype="text/html")
         
-    handler = fallback_app
+    handler = app
