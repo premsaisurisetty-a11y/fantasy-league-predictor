@@ -22,3 +22,14 @@ except Exception as e:
             "message": err_msg,
             "traceback": err_tb
         }), 500
+
+@app.errorhandler(404)
+def handle_404(e):
+    from flask import request, jsonify
+    rules = [str(r) for r in app.url_map.iter_rules()]
+    return jsonify({
+        "error": "404 Not Found",
+        "requested_path": request.path,
+        "environ_path": request.environ.get("PATH_INFO"),
+        "registered_rules": rules
+    }), 404
