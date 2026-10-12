@@ -332,7 +332,7 @@ def make_prediction_from_dict(data_dict):
 
     bundle = get_bundle()
     if bundle is not None:
-        model = bundle["model"]
+        model = bundle.get("model") if bundle.get("model") is not None else FantasyEnsembleRegressor(bundle)
         features = bundle["features"]
         numeric_medians = bundle["numeric_medians"]
         categories = bundle["categories"]

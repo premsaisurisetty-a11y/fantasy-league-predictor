@@ -47,7 +47,7 @@ if not model_path:
 bundle = joblib.load(model_path)
 
 # Extract the trained prediction model and required preprocessing details.
-model = bundle["model"]
+model = bundle.get("model") if bundle.get("model") is not None else FantasyEnsembleRegressor(bundle)
 features = bundle["features"]
 medians = bundle["numeric_medians"]
 categories = bundle["categories"]

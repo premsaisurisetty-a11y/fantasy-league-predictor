@@ -316,13 +316,16 @@ print(comparison_df.to_string(index=False))
 # Bundle the trained models, feature information, preprocessing details,
 # and ensemble evaluation metrics so they can be reused later.
 bundle = {
-    "model": ensemble_model,
     "lgb_model": lgb_model,
     "ridge_model": ridge,
+    "lgb_weight": 0.35,
+    "ridge_weight": 0.65,
     "features": features,
     "numeric_medians": medians,
     "categories": categories,
     "categorical_columns": cat_cols,
+    "encoded_feature_columns": encoded_feature_columns,
+    "feature_importances": lgb_model.feature_importances_.tolist(),
     "metrics": {
         "mae": ens_mae,
         "mse": ens_mse,
