@@ -9,16 +9,14 @@ if BASE_DIR not in sys.path:
 from app.app import app
 from flask import request, jsonify
 
-@app.before_request
-def debug_capture():
-    if "debug" in request.args:
-        return jsonify({
-            "path": request.path,
-            "query_string": request.environ.get("QUERY_STRING"),
-            "path_info": request.environ.get("PATH_INFO"),
-            "args": dict(request.args),
-            "headers": {k: v for k, v in request.headers.items() if not k.lower().startswith("x-vercel-oidc")}
-        })
+@app.route("/<path:subpath>")
+def catch_all_subpath(subpath):
+    return jsonify({
+        "matched_catch_all": subpath,
+        "path": request.path,
+        "path_info": request.environ.get("PATH_INFO"),
+        "query_string": request.environ.get("QUERY_STRING")
+    })
 
 class VercelPathFix:
     def __init__(self, wsgi_app):
