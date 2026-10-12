@@ -5,31 +5,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-try:
-    from app.app import app
-except Exception as e:
-    import traceback
-    from flask import Flask, jsonify
-    err_msg = str(e)
-    err_tb = traceback.format_exc()
-    app = Flask(__name__)
-    
-    @app.route("/", defaults={"path": ""})
-    @app.route("/<path:path>")
-    def catch_all(path):
-        return jsonify({
-            "status": "error",
-            "message": err_msg,
-            "traceback": err_tb
-        }), 500
+from app.app import app
 
-@app.errorhandler(404)
-def handle_404(e):
-    from flask import request, jsonify
-    rules = [str(r) for r in app.url_map.iter_rules()]
-    return jsonify({
-        "error": "404 Not Found",
-        "requested_path": request.path,
-        "environ_path": request.environ.get("PATH_INFO"),
-        "registered_rules": rules
-    }), 404
+class VercelPathFix:
+    def __init__(self, wsgi_app):
+        self.wsgi_app = wsgi_app
+
+    def __call__(self, environ, start_response):
+        path = environ.get("PATH_INFO", "")
+        for prefix in ["/api/index.py", "/api/index"]:
+            if path == prefix:
+                path = "/"
+                break
+            elif path.startswith(prefix + "/"):
+                path = path[len(prefix):]
+                break
+        environ["PATH_INFO"] = path
+        return self.wsgi_app(environ, start_response)
+
+app.wsgi_app = VercelPathFix(app.wsgi_app)

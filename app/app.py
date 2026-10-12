@@ -24,17 +24,6 @@ app = Flask(
 def health():
     return jsonify({"status": "ok", "python": sys.version})
 
-@app.errorhandler(404)
-def not_found_handler(e):
-    return jsonify({
-        "error": "404 Not Found",
-        "path": request.path,
-        "full_path": request.full_path,
-        "headers": dict(request.headers),
-        "environ_path_info": request.environ.get("PATH_INFO"),
-        "environ_script_name": request.environ.get("SCRIPT_NAME")
-    }), 404
-
 try:
     from src.ensemble import FantasyEnsembleRegressor
 except ImportError:
