@@ -1,67 +1,99 @@
+
 """
-Script to generate a publication-quality, academic PDF report for Exploratory Data Analysis (EDA)
-Embedding all 5 required rubric phases and all statistical figures.
+Script to generate a publication-quality academic PDF report for Exploratory
+Data Analysis (EDA), embedding all 5 required rubric phases and statistical figures.
 """
 
+# Import operating system utilities for paths and file management.
 import os
+
+# Import pandas and NumPy for tabular data and numerical operations.
 import pandas as pd
 import numpy as np
+
+# Import ReportLab modules for PDF page sizes, colors, and text styling.
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+
+# Import layout components used to arrange text, tables, images, and page breaks.
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image, KeepTogether, HRFlowable, PageBreak
 )
+
+# Import the PDF canvas to customize page numbering and decorations.
 from reportlab.pdfgen import canvas
 
+# Resolve the project root directory relative to this script.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Define the main PDF output, duplicate report location, graph directory,
+# and EDA summary statistics path.
 PDF_OUTPUT_PATH = os.path.join(BASE_DIR, "EDA_REPORT.pdf")
 RESULTS_PDF_PATH = os.path.join(BASE_DIR, "results", "EDA_REPORT.pdf")
 EDA_GRAPHS_DIR = os.path.join(BASE_DIR, "results", "eda_graphs")
 EDA_STATS_PATH = os.path.join(BASE_DIR, "results", "eda_summary_statistics.csv")
 
+
+# Custom canvas class for adding page numbers and consistent page decorations.
 class NumberedCanvas(canvas.Canvas):
+
+    # Initialize the canvas and create a list to store page states.
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._saved_page_states = []
 
+    # Save the current page state before moving to the next page.
     def showPage(self):
         self._saved_page_states.append(dict(self.__dict__))
         self._startPage()
 
+    # Render every saved page after the total page count is known.
     def save(self):
         num_pages = len(self._saved_page_states)
         for state in self._saved_page_states:
             self.__dict__.update(state)
+
+            # Draw headers, footers, and page numbers on the current page.
             self.draw_page_decorations(num_pages)
             super().showPage()
         super().save()
 
+    # Add a consistent header and footer to each PDF page.
     def draw_page_decorations(self, page_count):
         self.saveState()
         self.setFont("Helvetica", 8)
         self.setFillColor(colors.HexColor("#64748b"))
-        
-        # Header (Pages > 1)
+
+        # Add the report header on every page except the first page.
         if self._pageNumber > 1:
             self.drawString(54, 755, "FantasyScore AI — Machine Learning EDA & Preprocessing Report")
             self.drawRightString(612 - 54, 755, "Course: ML Sem 2-1")
+
+            # Draw a thin horizontal line below the header.
             self.setStrokeColor(colors.HexColor("#cbd5e1"))
             self.setLineWidth(0.5)
             self.line(54, 748, 612 - 54, 748)
-            
-        # Footer
+
+        # Add the current page number and total page count in the footer.
         footer_text = f"Page {self._pageNumber} of {page_count}"
         self.drawRightString(612 - 54, 35, footer_text)
+
+        # Add the academic report footer label.
         self.drawString(54, 35, "Confidential — Academic Project Report (Phases 1 to 5)")
+
+        # Draw a thin horizontal line above the footer.
         self.setStrokeColor(colors.HexColor("#cbd5e1"))
         self.setLineWidth(0.5)
         self.line(54, 45, 612 - 54, 45)
         self.restoreState()
 
+
+# Main function that constructs and generates the EDA report.
 def build_pdf():
     print(f"[PDF Generator] Creating comprehensive EDA PDF Report at: {PDF_OUTPUT_PATH}")
-    
+
+    # Configure the PDF document's page size and margins.
     doc = SimpleDocTemplate(
         PDF_OUTPUT_PATH,
         pagesize=letter,
@@ -70,17 +102,19 @@ def build_pdf():
         topMargin=54,
         bottomMargin=54
     )
-    
+
+    # Load ReportLab's predefined styles as the base for custom styles.
     styles = getSampleStyleSheet()
-    
-    # Custom Palette & Styles
+
+    # Define the report's color palette.
     PRIMARY_COLOR = colors.HexColor("#0f172a")     # Deep Slate
     SECONDARY_COLOR = colors.HexColor("#0284c7")   # Ocean Blue
     ACCENT_COLOR = colors.HexColor("#0d9488")      # Teal
     TEXT_DARK = colors.HexColor("#1e293b")         # Charcoal
     BG_LIGHT = colors.HexColor("#f8fafc")          # Light card
     BORDER_LIGHT = colors.HexColor("#e2e8f0")
-    
+
+    # Style for the main report title.
     title_style = ParagraphStyle(
         'DocTitle',
         parent=styles['Normal'],
@@ -90,7 +124,8 @@ def build_pdf():
         textColor=PRIMARY_COLOR,
         spaceAfter=4
     )
-    
+
+    # Style for the subtitle displayed below the main title.
     subtitle_style = ParagraphStyle(
         'DocSubTitle',
         parent=styles['Normal'],
@@ -100,7 +135,8 @@ def build_pdf():
         textColor=SECONDARY_COLOR,
         spaceAfter=12
     )
-    
+
+    # Style for major numbered section headings.
     h1_style = ParagraphStyle(
         'Heading1_Custom',
         parent=styles['Normal'],
@@ -113,6 +149,7 @@ def build_pdf():
         keepWithNext=True
     )
 
+    # Style for subsection headings.
     h2_style = ParagraphStyle(
         'Heading2_Custom',
         parent=styles['Normal'],
@@ -124,7 +161,8 @@ def build_pdf():
         spaceAfter=4,
         keepWithNext=True
     )
-    
+
+    # Style for standard paragraphs in the report.
     body_style = ParagraphStyle(
         'Body_Custom',
         parent=styles['Normal'],
@@ -135,6 +173,7 @@ def build_pdf():
         spaceAfter=6
     )
 
+    # Style for bullet-point descriptions.
     bullet_style = ParagraphStyle(
         'Bullet_Custom',
         parent=styles['Normal'],
@@ -146,6 +185,7 @@ def build_pdf():
         spaceAfter=3
     )
 
+    # Style for header cells in report tables.
     table_header_style = ParagraphStyle(
         'TableHeader',
         parent=styles['Normal'],
@@ -155,6 +195,7 @@ def build_pdf():
         textColor=colors.white
     )
 
+    # Style for ordinary table cells.
     table_body_style = ParagraphStyle(
         'TableBody',
         parent=styles['Normal'],
@@ -164,6 +205,7 @@ def build_pdf():
         textColor=TEXT_DARK
     )
 
+    # Style for captions displayed below figures.
     caption_style = ParagraphStyle(
         'ImageCaption',
         parent=styles['Normal'],
@@ -175,17 +217,20 @@ def build_pdf():
         spaceBefore=4,
         spaceAfter=10
     )
-    
+
+    # The story list contains all elements in the order they appear in the PDF.
     story = []
-    
+
     # ---------------------------------------------------------
     # HEADER BANNER & PROJECT TITLE
     # ---------------------------------------------------------
+
+    # Add the report title, project subtitle, and milestone description.
     story.append(Paragraph("Machine Learning Project Report", title_style))
     story.append(Paragraph("<b>Fantasy League Score Prediction Using Gradient-Boosted Decision Trees</b>", subtitle_style))
     story.append(Paragraph("<b>Phase:</b> Milestone 1 &mdash; End-to-End Problem Formulation, Data Ingestion, Cleaning & Exploratory Data Analysis (EDA)", body_style))
-    
-    # Metadata Overview Table
+
+    # Build a metadata table summarizing the dataset and prediction target.
     meta_data = [
         [
             Paragraph("<b>Target Variable:</b> <code>fantasy_points</code> (Continuous)", body_style),
@@ -198,6 +243,8 @@ def build_pdf():
             Paragraph("<b>Feature Attributes:</b> 22 Features", body_style)
         ]
     ]
+
+    # Set equal column widths and apply formatting to the metadata table.
     t_meta = Table(meta_data, colWidths=[168, 168, 168])
     t_meta.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), BG_LIGHT),
@@ -209,20 +256,24 @@ def build_pdf():
         ('RIGHTPADDING', (0,0), (-1,-1), 6),
     ]))
     story.append(t_meta)
+
+    # Add spacing and a colored divider below the metadata table.
     story.append(Spacer(1, 10))
     story.append(HRFlowable(width="100%", thickness=1, color=SECONDARY_COLOR, spaceBefore=4, spaceAfter=8))
-    
+
     # ---------------------------------------------------------
     # SECTION 1: PROBLEM DEFINITION
     # ---------------------------------------------------------
+
+    # Describe the prediction problem, its importance, users, and expected output.
     story.append(Paragraph("1. Problem Definition", h1_style))
     story.append(Paragraph("<b>1.1 What problem are you solving?</b>", h2_style))
     story.append(Paragraph("We are formulating a supervised regression model to predict the total fantasy league score (<code>fantasy_points</code>) earned by cricket players in individual matches. The prediction is computed from historical form, role responsibilities, batting statistics, bowling performance, venue context, and opponent resistance.", body_style))
-    
+
     story.append(Paragraph("<b>1.2 Why is this problem important?</b>", h2_style))
     story.append(Paragraph("• <b>High Sports Volatility:</b> Cricket outcomes fluctuate due to pitch behavior, weather, and matchup factors. Manual judgment is subjective and prone to human bias.<br/>"
                            "• <b>Squad Optimization:</b> Fantasy leagues require selecting an 11-player squad under a strict budget cap with 2x captain multipliers. Automated predictions provide an objective expected-value benchmark.", bullet_style))
-    
+
     story.append(Paragraph("<b>1.3 Who will use the solution?</b>", h2_style))
     story.append(Paragraph("• <b>Fantasy Sports Gamers:</b> To pick high-scoring lineups and captain picks on platforms like Dream11 & My11Circle.<br/>"
                            "• <b>Sports Analysts & Coaching Staff:</b> To evaluate player expected contributions against specific bowling attacks.<br/>"
@@ -230,12 +281,14 @@ def build_pdf():
 
     story.append(Paragraph("<b>1.4 What is the expected output?</b>", h2_style))
     story.append(Paragraph("A continuous numeric prediction (<code>predicted_fantasy_points</code> &isin; &real;<sup>+</sup>) evaluated against ground-truth points using Mean Absolute Error (MAE) and Root Mean Squared Error (RMSE).", body_style))
-    
+
     story.append(Spacer(1, 6))
 
     # ---------------------------------------------------------
     # SECTION 2: DATASET COLLECTION
     # ---------------------------------------------------------
+
+    # Document the dataset source, storage locations, size, and target variable.
     story.append(Paragraph("2. Dataset Collection", h1_style))
     story.append(Paragraph("• <b>Dataset Source:</b> Historical IPL Match Performances & Official Fantasy League Scoring Matrix (2026 Season).<br/>"
                            "• <b>File Locations:</b> Raw dataset at <code>data/raw/fantasy_league_dataset.csv</code>, cleaned dataset at <code>data/processed/fantasy_league_cleaned.csv</code>.<br/>"
@@ -247,18 +300,21 @@ def build_pdf():
     # ---------------------------------------------------------
     # SECTION 3: DATA UNDERSTANDING
     # ---------------------------------------------------------
+
+    # Introduce the structural audit of columns, data types, and missing values.
     story.append(Paragraph("3. Data Understanding & Structural Audit", h1_style))
     story.append(Paragraph("Basic structural parameters and feature health audits across all 2,741 records:", body_style))
 
-    # Data Types & Missing Values Table
+    # Create the table header for data types, completeness, and feature roles.
     audit_data = [
-        [Paragraph("<b>Feature Name</b>", table_header_style), 
-         Paragraph("<b>Type</b>", table_header_style), 
-         Paragraph("<b>Non-Null</b>", table_header_style), 
+        [Paragraph("<b>Feature Name</b>", table_header_style),
+         Paragraph("<b>Type</b>", table_header_style),
+         Paragraph("<b>Non-Null</b>", table_header_style),
          Paragraph("<b>Nulls (%)</b>", table_header_style),
          Paragraph("<b>Role in Pipeline</b>", table_header_style)]
     ]
-    
+
+    # Store the reported sample feature statistics and descriptions.
     sample_features = [
         ("fantasy_points", "float64", "2,741", "0 (0.0%)", "Target Variable (Output)"),
         ("recent_average_points", "float64", "2,699", "42 (1.53%)", "Rolling Form (Strongest Predictor, r=0.63)"),
@@ -271,6 +327,8 @@ def build_pdf():
         ("team", "object", "2,741", "0 (0.0%)", "Categorical: 10 Canonical IPL Teams"),
         ("opponent_strength", "float64", "2,701", "40 (1.46%)", "Opponent Resistance Index (1 to 5)")
     ]
+
+    # Add each feature's details as a row in the audit table.
     for fn, dt, nn, nl, desc in sample_features:
         audit_data.append([
             Paragraph(f"<code>{fn}</code>", table_body_style),
@@ -279,7 +337,8 @@ def build_pdf():
             Paragraph(nl, table_body_style),
             Paragraph(desc, table_body_style)
         ])
-        
+
+    # Format the audit table with a dark header and alternating row backgrounds.
     t_audit = Table(audit_data, colWidths=[105, 55, 55, 65, 224])
     t_audit.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), PRIMARY_COLOR),
@@ -296,6 +355,8 @@ def build_pdf():
     # ---------------------------------------------------------
     # SECTION 4: DATA PREPROCESSING
     # ---------------------------------------------------------
+
+    # Summarize the documented missing-value, duplicate, category, and outlier handling.
     story.append(Paragraph("4. Data Preprocessing & Cleaning", h1_style))
     story.append(Paragraph("• <b>Missing Value Imputation:</b> 11 numerical features with &lt;3% missingness are imputed using <b>training-partition medians only</b>, strictly preventing future lookahead data leakage.<br/>"
                            "• <b>Duplicate Check:</b> 0 duplicate rows detected across all 2,741 observations.<br/>"
@@ -307,13 +368,18 @@ def build_pdf():
     # ---------------------------------------------------------
     # SECTION 5: EXPLORATORY DATA ANALYSIS (ALL VISUALIZATIONS)
     # ---------------------------------------------------------
+
+    # Start the visual analysis on a new page.
     story.append(PageBreak())
     story.append(Paragraph("5. Exploratory Data Analysis (EDA) — Meaningful Visualizations", h1_style))
     story.append(Paragraph("All 6 required visualization modalities generated during pipeline execution:", body_style))
 
-    # Helper function to add image block
+    # Helper function to add a figure, heading, caption, and spacing when its file exists.
     def add_figure(filename, title, caption_text, width=470, height=210):
+        # Construct the full path to the requested graph image.
         img_path = os.path.join(EDA_GRAPHS_DIR, filename)
+
+        # Include the figure only if its image file is available.
         if os.path.exists(img_path):
             img = Image(img_path, width=width, height=height)
             story.append(KeepTogether([
@@ -323,61 +389,65 @@ def build_pdf():
                 Spacer(1, 4)
             ]))
 
-    # 5.1 Histogram
+    # 5.1 Histogram: show the distribution of the target variable.
     add_figure(
         "01_histogram_target_distribution.png",
         "5.1 Histogram & Distribution Analysis (Target Variable: fantasy_points)",
         "Figure 1: Histogram, KDE density, and boxplot showing unimodal shape (Mean=35.61, Median=34.10, Skewness=+0.42)."
     )
 
-    # 5.2 Bar Chart
+    # 5.2 Bar chart: compare average fantasy points across teams.
     add_figure(
         "02_bar_chart_team_points.png",
         "5.2 Bar Chart: Team-Wise Average Fantasy Points",
         "Figure 2: Bar chart showing average fantasy production across all 10 IPL franchises (ranging from 33.5 to 37.2 pts)."
     )
 
+    # Start the next pair of figures on a separate page.
     story.append(PageBreak())
 
-    # 5.3 Box Plot
+    # 5.3 Box plot: compare fantasy scores by player role.
     add_figure(
         "03_box_plot_role_performance.png",
         "5.3 Box Plot: Fantasy Points by Player Role",
         "Figure 3: Boxplot showing All-Rounders have the highest scoring ceiling (Mean=44.8 pts) due to two-way point contributions."
     )
 
-    # 5.4 Scatter Plot
+    # 5.4 Scatter plots: examine relationships between features and fantasy points.
     add_figure(
         "04_scatter_plots_bivariate.png",
         "5.4 Scatter Plots: Bivariate Regression Analysis",
         "Figure 4: Scatter plots with regression trends: Batting Runs (r=+0.27) and Recent Form (r=+0.56) vs. Fantasy Points."
     )
 
+    # Start the correlation and categorical analysis on a new page.
     story.append(PageBreak())
 
-    # 5.5 Correlation Heatmap
+    # 5.5 Correlation heatmap: visualize Pearson correlation values.
     add_figure(
         "05_correlation_heatmap.png",
         "5.5 Correlation Heatmap: Pearson Interdependence Matrix",
         "Figure 5: Triangular heatmap illustrating strong positive correlations for recent average points (r=0.63) and wickets (r=0.50)."
     )
 
-    # 5.6 Count Plots
+    # 5.6 Count plots: show the frequencies of categorical values.
     add_figure(
         "06_count_plots_categorical.png",
         "5.6 Count Plots: Categorical Class Distributions",
         "Figure 6: Categorical frequencies across Player Roles, Match Venues (Home/Away), and Player Form Rating Scale (1 to 5)."
     )
 
+    # Start supplementary EDA visualizations on a new page.
     story.append(PageBreak())
 
-    # Supplementary Graphs
+    # Supplementary graph: summarize missing-value percentages.
     add_figure(
         "07_missing_values_bar_chart.png",
         "5.7 Supplementary Bar Chart: Missing Value Audit",
         "Figure 7: Bar chart of missing value percentages across attributes prior to median imputation."
     )
 
+    # Supplementary graph: display the distribution and outliers of numerical features.
     add_figure(
         "08_outlier_spread_boxplots.png",
         "5.8 Supplementary Box Plot: Multi-Feature Distribution Spread",
@@ -387,6 +457,8 @@ def build_pdf():
     # ---------------------------------------------------------
     # SECTION 6: KEY FINDINGS & MODELING TAKEAWAYS
     # ---------------------------------------------------------
+
+    # Summarize important findings and explain how they inform model selection.
     story.append(Paragraph("6. Summary of Key Findings & Modeling Strategy", h1_style))
     story.append(Paragraph("1. <b>Form Autocorrelation:</b> Short-term form (<code>recent_average_points</code>, $r=0.63$) is the single most dominant linear predictor of fantasy match score.<br/>"
                            "2. <b>High Bowling Leverage:</b> Wickets captured ($r=0.50$) correlate much more strongly than raw batting runs ($r=0.27$) due to large discrete point rewards (25 pts/wicket).<br/>"
@@ -394,17 +466,22 @@ def build_pdf():
                            "4. <b>Chronological Data Splitting:</b> The dataset is partitioned chronologically by <code>match_id</code> (80% train / 20% test) to prevent future data leakage.<br/>"
                            "5. <b>Algorithm Selection:</b> LightGBM Regressor is selected for its histogram-based speed, native categorical handling, and robust performance on non-linear tabular data.", bullet_style))
 
+    # Add a divider and a final report-generation note.
     story.append(Spacer(1, 10))
     story.append(HRFlowable(width="100%", thickness=1, color=SECONDARY_COLOR, spaceBefore=4, spaceAfter=8))
     story.append(Paragraph("<b>Report Generated Automatically by ML Pipeline</b> &bull; FantasyScore AI &bull; Semester 2-1", caption_style))
 
-    # Build Document using NumberedCanvas
+    # Build the PDF using the custom canvas for page numbering and decorations.
     doc.build(story, canvasmaker=NumberedCanvas)
-    
-    # Also copy to results
+
+    # Copy the generated PDF into the results directory as a second report copy.
     import shutil
     shutil.copy(PDF_OUTPUT_PATH, RESULTS_PDF_PATH)
+
+    # Display the generated file size and both output locations.
     print(f"[PDF Generator] Successfully generated PDF ({os.path.getsize(PDF_OUTPUT_PATH):,} bytes) at:\n - {PDF_OUTPUT_PATH}\n - {RESULTS_PDF_PATH}")
 
+
+# Execute PDF generation only when this script is run directly.
 if __name__ == "__main__":
     build_pdf()
