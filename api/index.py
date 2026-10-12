@@ -7,6 +7,18 @@ if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
 from app.app import app
+from flask import request, jsonify
+
+@app.before_request
+def debug_capture():
+    if "debug" in request.args:
+        return jsonify({
+            "path": request.path,
+            "query_string": request.environ.get("QUERY_STRING"),
+            "path_info": request.environ.get("PATH_INFO"),
+            "args": dict(request.args),
+            "headers": {k: v for k, v in request.headers.items() if not k.lower().startswith("x-vercel-oidc")}
+        })
 
 class VercelPathFix:
     def __init__(self, wsgi_app):
@@ -18,7 +30,6 @@ class VercelPathFix:
             params = urllib.parse.parse_qs(qs)
             if "__orig_path" in params and params["__orig_path"]:
                 target_path = params["__orig_path"][0]
-                # Normalize double slashes
                 if target_path.startswith("//"):
                     target_path = target_path[1:]
                 environ["PATH_INFO"] = target_path
