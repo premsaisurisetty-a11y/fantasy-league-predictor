@@ -68,10 +68,12 @@
 
     <div class="form-group">
       <label class="form-label">Team 2 (Opponent)</label>
-      <select name="team2" class="form-control" id="optTeam2">
+      <select name="team2" class="form-control" id="optTeam2" data-all-teams='{{ teams|tojson }}'>
         <option value="">All Teams (League Dream Team)</option>
         {% for t in teams %}
-        <option value="{{ t }}" {% if selected_team2 == t %}selected{% endif %}>{{ t }}</option>
+          {% if not selected_team1 or t|trim|lower != selected_team1|trim|lower %}
+          <option value="{{ t }}" {% if selected_team2 == t %}selected{% endif %}>{{ t }}</option>
+          {% endif %}
         {% endfor %}
       </select>
     </div>
@@ -312,6 +314,61 @@
 </div>
 
 <script>
+const SQUAD_TEAMS = {{ teams|tojson }};
+
+function syncOpponentDropdown() {
+  const optTeam1 = document.getElementById("optTeam1");
+  const optTeam2 = document.getElementById("optTeam2");
+  if (!optTeam1 || !optTeam2) return;
+
+  const selectedTeam1 = (optTeam1.value || "").trim();
+  const currentTeam2 = (optTeam2.value || "").trim();
+
+  // Rebuild optTeam2 options excluding selected Team 1
+  optTeam2.innerHTML = '<option value="">All Teams (League Dream Team)</option>';
+
+  SQUAD_TEAMS.forEach(team => {
+    const cleanTeam = (team || "").trim();
+    if (!cleanTeam) return;
+
+    // Do NOT show selected Team 1 in Opponent dropdown
+    if (selectedTeam1 && cleanTeam.toLowerCase() === selectedTeam1.toLowerCase()) {
+      return;
+    }
+
+    const opt = document.createElement("option");
+    opt.value = cleanTeam;
+    opt.textContent = cleanTeam;
+    if (currentTeam2 && currentTeam2.toLowerCase() === cleanTeam.toLowerCase()) {
+      opt.selected = true;
+    }
+    optTeam2.appendChild(opt);
+  });
+
+  // If opponent had the same team as Team 1 just picked, reset opponent to empty
+  if (selectedTeam1 && currentTeam2.toLowerCase() === selectedTeam1.toLowerCase()) {
+    optTeam2.value = "";
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    const optTeam1 = document.getElementById("optTeam1");
+    if (optTeam1) {
+      optTeam1.addEventListener("change", syncOpponentDropdown);
+    }
+    syncOpponentDropdown();
+  });
+} else {
+  const optTeam1 = document.getElementById("optTeam1");
+  if (optTeam1) {
+    optTeam1.addEventListener("change", syncOpponentDropdown);
+  }
+  syncOpponentDropdown();
+}
+
+window.addEventListener("pageshow", syncOpponentDropdown);
+
 function copySquadToClipboard() {
   const players = [
     {% for p in optimized.squad %}

@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initLiveMatchSimulator();
   initLeaderboardSearch();
   initTableSorting();
+  initSquadOptimizerFilters();
 
   // Initial load auto-trigger to ensure real-time analytics are visible
   const form = document.getElementById("predictionForm");
@@ -1037,4 +1038,66 @@ function initTableSorting() {
       rows.forEach(row => tbody.appendChild(row));
     });
   });
+}
+
+// ==========================================================================
+// 10. Squad Optimizer: Team vs Opponent Dynamic Mutual Filtering
+// ==========================================================================
+function initSquadOptimizerFilters() {
+  const optTeam1 = document.getElementById("optTeam1");
+  const optTeam2 = document.getElementById("optTeam2");
+  if (!optTeam1 || !optTeam2) return;
+
+  // Retrieve master team list from data attribute or window
+  let allTeams = [];
+  try {
+    if (optTeam2.dataset.allTeams) {
+      allTeams = JSON.parse(optTeam2.dataset.allTeams);
+    }
+  } catch (e) {}
+
+  if (!allTeams || allTeams.length === 0) {
+    if (window.SQUAD_TEAMS && Array.isArray(window.SQUAD_TEAMS)) {
+      allTeams = window.SQUAD_TEAMS;
+    } else {
+      allTeams = Array.from(optTeam2.options)
+        .map(o => o.value.trim())
+        .filter(v => v !== "");
+    }
+  }
+
+  function update() {
+    const selectedTeam1 = (optTeam1.value || "").trim();
+    const currentTeam2 = (optTeam2.value || "").trim();
+
+    // Rebuild Opponent dropdown
+    optTeam2.innerHTML = '<option value="">All Teams (League Dream Team)</option>';
+
+    allTeams.forEach(team => {
+      const cleanTeam = (team || "").trim();
+      if (!cleanTeam) return;
+
+      // When Team 1 is selected, it must NOT appear in Opponent dropdown
+      if (selectedTeam1 && cleanTeam.toLowerCase() === selectedTeam1.toLowerCase()) {
+        return;
+      }
+
+      const opt = document.createElement("option");
+      opt.value = cleanTeam;
+      opt.textContent = cleanTeam;
+      if (currentTeam2 && currentTeam2.toLowerCase() === cleanTeam.toLowerCase()) {
+        opt.selected = true;
+      }
+      optTeam2.appendChild(opt);
+    });
+
+    // Reset Opponent if it previously had the team now chosen as Team 1
+    if (selectedTeam1 && currentTeam2.toLowerCase() === selectedTeam1.toLowerCase()) {
+      optTeam2.value = "";
+    }
+  }
+
+  optTeam1.addEventListener("change", update);
+  update();
+  window.addEventListener("pageshow", update);
 }

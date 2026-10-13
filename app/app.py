@@ -87,8 +87,8 @@ try:
     from app.precomputed_data import PRECOMPUTED_DATA
     dataset_stats = PRECOMPUTED_DATA["stats"]
     all_players = PRECOMPUTED_DATA["players"]
-    all_teams = PRECOMPUTED_DATA["teams"]
-    all_opponent_teams = PRECOMPUTED_DATA["opponent_teams"]
+    all_teams = sorted(list(dict.fromkeys(t.strip() for t in PRECOMPUTED_DATA["teams"] if t and t.strip())))
+    all_opponent_teams = sorted(list(dict.fromkeys(t.strip() for t in PRECOMPUTED_DATA["opponent_teams"] if t and t.strip())))
     all_roles = PRECOMPUTED_DATA["roles"]
     home_away_options = PRECOMPUTED_DATA["home_away_options"]
     cached_leaderboard = PRECOMPUTED_DATA["leaderboard"]
@@ -100,8 +100,8 @@ except Exception:
             pre_data = json.load(f)
         dataset_stats = pre_data["stats"]
         all_players = pre_data["players"]
-        all_teams = pre_data["teams"]
-        all_opponent_teams = pre_data["opponent_teams"]
+        all_teams = sorted(list(dict.fromkeys(t.strip() for t in pre_data["teams"] if t and t.strip())))
+        all_opponent_teams = sorted(list(dict.fromkeys(t.strip() for t in pre_data["opponent_teams"] if t and t.strip())))
         all_roles = pre_data["roles"]
         home_away_options = pre_data["home_away_options"]
         cached_leaderboard = pre_data["leaderboard"]
@@ -119,8 +119,8 @@ except Exception:
             "avg_fantasy_points": avg_fantasy_pts
         }
         all_players = sorted(df["player_name"].dropna().unique().tolist())
-        all_teams = sorted(df["team"].dropna().unique().tolist())
-        all_opponent_teams = sorted(df["opponent_team"].dropna().unique().tolist())
+        all_teams = sorted(list(dict.fromkeys(t.strip() for t in df["team"].dropna().unique().tolist() if t and t.strip())))
+        all_opponent_teams = sorted(list(dict.fromkeys(t.strip() for t in df["opponent_team"].dropna().unique().tolist() if t and t.strip())))
         all_roles = sorted(df["player_role"].dropna().unique().tolist())
         home_away_options = sorted(df["home_away"].dropna().unique().tolist())
 
@@ -190,14 +190,21 @@ def optimize_fantasy_squad(player_pool=None, max_budget=100.0, team1=None, team2
     if player_pool is None:
         player_pool = cached_leaderboard
 
+    t1 = team1.strip() if (team1 and str(team1).strip()) else None
+    t2 = team2.strip() if (team2 and str(team2).strip()) else None
+    # Opponent cannot be the same as Team 1
+    if t1 and t2 and t1.lower() == t2.lower():
+        t2 = None
+
     # Filter candidate pool by matchup teams if specified
     candidates = []
     for p in player_pool:
-        if team1 and team2:
-            if p["team"] in [team1, team2]:
+        p_team = str(p.get("team", "")).strip()
+        if t1 and t2:
+            if p_team.lower() in [t1.lower(), t2.lower()]:
                 candidates.append(p)
-        elif team1:
-            if p["team"] == team1:
+        elif t1:
+            if p_team.lower() == t1.lower():
                 candidates.append(p)
         else:
             candidates.append(p)
@@ -520,8 +527,11 @@ def rankings():
 
 @app.route("/squad-optimizer", methods=["GET", "POST"])
 def squad_optimizer():
-    team1 = request.args.get("team1", "")
-    team2 = request.args.get("team2", "")
+    team1 = (request.args.get("team1", "") or "").strip()
+    team2 = (request.args.get("team2", "") or "").strip()
+    # Opponent cannot be the same franchise as Team 1
+    if team1 and team2 and team1.lower() == team2.lower():
+        team2 = ""
     try:
         budget = float(request.args.get("budget", 100.0))
     except (ValueError, TypeError):
@@ -534,11 +544,13 @@ def squad_optimizer():
         team2=team2 if team2 else None
     )
 
+    clean_teams = sorted(list(dict.fromkeys(t.strip() for t in all_teams if t and t.strip())))
+
     return render_template(
         "squad_optimizer.html",
         active_page="optimizer",
         optimized=optimized,
-        teams=all_teams,
+        teams=clean_teams,
         selected_team1=team1,
         selected_team2=team2,
         budget=budget
@@ -547,8 +559,10 @@ def squad_optimizer():
 @app.route("/api/optimize-squad", methods=["GET", "POST"])
 def api_optimize_squad():
     req_data = request.get_json(silent=True) or request.args
-    team1 = req_data.get("team1", "")
-    team2 = req_data.get("team2", "")
+    team1 = (req_data.get("team1", "") or "").strip()
+    team2 = (req_data.get("team2", "") or "").strip()
+    if team1 and team2 and team1.lower() == team2.lower():
+        team2 = ""
     try:
         budget = float(req_data.get("budget", 100.0))
     except (ValueError, TypeError):
